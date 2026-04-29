@@ -1,72 +1,89 @@
-document.addEventListener('DOMContentLoaded', () => {
-
-    // 1. Theme Toggle Logic
-    const themeBtn = document.getElementById('theme-toggle');
-    const root = document.documentElement;
-
-    themeBtn.addEventListener('click', () => {
-        const currentTheme = root.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        
-        root.setAttribute('data-theme', newTheme);
-        
-        // Update Icon
-        if(newTheme === 'light') {
-            themeBtn.innerHTML = '<i class="fas fa-moon"></i>';
-        } else {
-            themeBtn.innerHTML = '<i class="fas fa-sun"></i>';
-        }
-    });
-
-    // 2. Mobile Menu Toggle
-    const mobileToggle = document.getElementById('mobile-toggle');
-    const navLinks = document.getElementById('nav-links');
-    const navItems = document.querySelectorAll('.nav-link');
-
-    mobileToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-        const icon = navLinks.classList.contains('active') ? 'fa-times' : 'fa-bars';
-        mobileToggle.innerHTML = `<i class="fas ${icon}"></i>`;
-    });
-
-    // Close mobile menu when a link is clicked
-    navItems.forEach(item => {
-        item.addEventListener('click', () => {
-            if (navLinks.classList.contains('active')) {
-                navLinks.classList.remove('active');
-                mobileToggle.innerHTML = '<i class="fas fa-bars"></i>';
-            }
-        });
-    });
-
-    // 3. Intersection Observer for Scroll Animations ("fade-in-up")
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.15 // Triggers when 15% of the element is visible
-    };
-
-    const scrollObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('appear');
-                // Optional: Stop observing once animated for performance
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    const animatedElements = document.querySelectorAll('.fade-in-up');
-    animatedElements.forEach(el => scrollObserver.observe(el));
-
-    // 4. Navbar Background Blur on Scroll Adjustment (Optional enhancement)
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.1)';
-        } else {
-            navbar.style.boxShadow = 'none';
-        }
-    });
+$(document).ready(function () {
+    // Theme Toggle (Default is Dark Mode)
+    const $themeToggle = $("#theme-toggle");
     
+    $themeToggle.on("click", function () {
+        $("body").toggleClass("dark-mode");
+        if ($("body").hasClass("dark-mode")) {
+            $(this).removeClass("fa-moon").addClass("fa-sun");
+        } else {
+            $(this).removeClass("fa-sun").addClass("fa-moon");
+        }
+    });
+
+    // Mobile Menu
+    $("#menu").on("click", function () {
+        $(this).toggleClass("fa-times");
+        $(".navbar").toggleClass("nav-toggle");
+    });
+
+    $(".navbar a").on("click", function () {
+        $("#menu").removeClass("fa-times");
+        $(".navbar").removeClass("nav-toggle");
+    });
+
+    // Scroll Effects
+    $(window).on("scroll load", function () {
+        if ($(window).scrollTop() > 60) {
+            $("#scroll-top").addClass("active");
+            $("header").addClass("scrolled");
+        } else {
+            $("#scroll-top").removeClass("active");
+            $("header").removeClass("scrolled");
+        }
+
+        // Scroll Spy
+        $("section").each(function () {
+            let top = $(window).scrollTop();
+            let offset = $(this).offset().top - 200;
+            let height = $(this).outerHeight();
+            let id = $(this).attr("id");
+
+            if (top > offset && top < offset + height) {
+                $(".navbar ul li a").removeClass("active");
+                $(".navbar").find(`[href="#${id}"]`).addClass("active");
+            }
+        });
+    });
+
+    // Typed.js setup for Moaaz
+    if ($(".typing-text").length) {
+        new Typed(".typing-text", {
+            strings: ["Flutter Development", "Mobile Architecture", "Scalable Apps", "Team Leadership"],
+            loop: true,
+            typeSpeed: 50,
+            backSpeed: 25,
+            backDelay: 500
+        });
+    }
+
+    // Vanilla Tilt
+    VanillaTilt.init(document.querySelectorAll(".tilt"), { max: 15, speed: 400 });
+
+    // Scroll Reveal
+    const srtop = ScrollReveal({ origin: "top", distance: "80px", duration: 1000, reset: false });
+    srtop.reveal('.home .content, .heading', { delay: 200 });
+    srtop.reveal('.home .image, .about .image', { delay: 400 });
+    srtop.reveal('.about .content, .boxx, .projects .box, .timeline .container', { interval: 200 });
+
+    // Particles.js with Red Theme match
+    if (typeof particlesJS !== "undefined") {
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#D84040" },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.5, "random": false },
+                "size": { "value": 3, "random": true },
+                "line_linked": { "enable": true, "distance": 150, "color": "#8E1616", "opacity": 0.4, "width": 1 },
+                "move": { "enable": true, "speed": 4, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": { "onhover": { "enable": true, "mode": "repulse" }, "onclick": { "enable": true, "mode": "push" }, "resize": true },
+                "modes": { "repulse": { "distance": 100, "duration": 0.4 }, "push": { "particles_nb": 4 } }
+            },
+            "retina_detect": true
+        });
+    }
 });
