@@ -58,13 +58,17 @@ $(document).ready(function () {
     }
 
     // Vanilla Tilt
-    VanillaTilt.init(document.querySelectorAll(".tilt"), { max: 15, speed: 400 });
+    if (typeof VanillaTilt !== 'undefined') {
+        VanillaTilt.init(document.querySelectorAll(".tilt"), { max: 15, speed: 400 });
+    }
 
     // Scroll Reveal
-    const srtop = ScrollReveal({ origin: "top", distance: "80px", duration: 1000, reset: false });
-    srtop.reveal('.home .content, .heading', { delay: 200 });
-    srtop.reveal('.home .image, .about .image', { delay: 400 });
-    srtop.reveal('.about .content, .boxx, .projects .box, .timeline .container', { interval: 200 });
+    if (typeof ScrollReveal !== 'undefined') {
+        const srtop = ScrollReveal({ origin: "top", distance: "80px", duration: 1000, reset: false });
+        srtop.reveal('.home .content, .heading', { delay: 200 });
+        srtop.reveal('.home .image, .about .image', { delay: 400 });
+        srtop.reveal('.about .content, .boxx, .projects .box, .timeline .container', { interval: 200 });
+    }
 
     // Particles.js with Red Theme match
     if (typeof particlesJS !== "undefined") {
