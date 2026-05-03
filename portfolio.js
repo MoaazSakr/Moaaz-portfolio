@@ -58,16 +58,57 @@ $(document).ready(function () {
     }
 
     // Vanilla Tilt
-    if (typeof VanillaTilt !== 'undefined') {
+    if (typeof VanillaTilt !== "undefined") {
         VanillaTilt.init(document.querySelectorAll(".tilt"), { max: 15, speed: 400 });
     }
 
-    // Scroll Reveal
-    if (typeof ScrollReveal !== 'undefined') {
-        const srtop = ScrollReveal({ origin: "top", distance: "80px", duration: 1000, reset: false });
-        srtop.reveal('.home .content, .heading', { delay: 200 });
-        srtop.reveal('.home .image, .about .image', { delay: 400 });
-        srtop.reveal('.about .content, .boxx, .projects .box, .timeline .container', { interval: 200 });
+    // 🌟 Scroll Reveal Animations (Animate Everything) 🌟
+    if (typeof ScrollReveal !== "undefined") {
+        // Base Setup (Reset = true means it animates every time you scroll past it)
+        const sr = ScrollReveal({
+            distance: '60px',
+            duration: 1000,
+            delay: 200,
+            reset: true
+        });
+
+        // Header & Navbar
+        sr.reveal('header', { origin: 'top', delay: 100, distance: '20px' });
+
+        // General Headings
+        sr.reveal('.heading', { origin: 'top', delay: 200 });
+
+        // Hero Section elements
+        sr.reveal('.home .content h2', { origin: 'left', delay: 300 });
+        sr.reveal('.home .content p', { origin: 'left', delay: 400 });
+        sr.reveal('.home .content .btn', { origin: 'left', delay: 500 });
+        sr.reveal('.home .social-icons', { origin: 'bottom', delay: 600 });
+        
+        // About Section
+        sr.reveal('.about .image', { origin: 'left', delay: 300 });
+        sr.reveal('.about .content', { origin: 'right', delay: 400 });
+
+        // Services Section
+        sr.reveal('.services .box', { origin: 'bottom', interval: 200, delay: 300 });
+
+        // Skills Section (Staggered items)
+        sr.reveal('.skills .boxx', { origin: 'bottom', delay: 200 });
+        sr.reveal('.tech-itemm', { origin: 'bottom', interval: 100, delay: 300 });
+
+        // Projects Section
+        sr.reveal('.projects .box', { origin: 'bottom', interval: 200, delay: 300 });
+
+        // Experience Timeline
+        sr.reveal('.experience .left', { origin: 'left', interval: 200, delay: 300 });
+        sr.reveal('.experience .right', { origin: 'right', interval: 200, delay: 300 });
+
+        // Testimonials
+        sr.reveal('.testimonials .box', { origin: 'bottom', interval: 200, delay: 300 });
+
+        // Contact & Footer
+        sr.reveal('.contact .container p', { origin: 'top', delay: 200 });
+        sr.reveal('.contact-links a', { origin: 'bottom', interval: 150, delay: 300 });
+        sr.reveal('.footer p', { origin: 'bottom', delay: 200 });
     }
 
     // Particles.js with Red Theme match

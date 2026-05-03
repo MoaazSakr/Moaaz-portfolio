@@ -1,5 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&display=swap");
+@import url("[https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap](https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap)");
+@import url("[https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&display=swap](https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&display=swap)");
 
 /* ===== CSS VARIABLES (Moaaz Sakr Identity) ===== */
 :root {
@@ -26,7 +26,7 @@
     --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Dark Mode Override (Set as default via JS later) */
+/* Dark Mode Override */
 body.dark-mode {
     --text-dark: #EEEEEE;
     --text-light: #B0B0B0;
@@ -58,14 +58,14 @@ header.scrolled { box-shadow: var(--shadow-lg); padding: 1rem 9%; }
 header .logo { font-size: 2rem; font-weight: 800; color: var(--text-dark); background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
 header .navbar ul { list-style: none; display: flex; gap: 0.5rem; }
-header .navbar ul li a { font-size: 1.5rem; color: var(--text-dark); font-weight: 600; padding: 0.8rem 1.5rem; border-radius: var(--border-radius); display: flex; align-items: center; gap: 0.8rem; }
+header .navbar ul li a { font-size: 1.4rem; color: var(--text-dark); font-weight: 600; padding: 0.8rem 1.2rem; border-radius: var(--border-radius); display: flex; align-items: center; gap: 0.6rem; }
 header .navbar ul li a.active, header .navbar ul li a:hover { color: var(--primary-color); background: rgba(216, 64, 64, 0.1); }
 
 #theme-toggle, #menu { font-size: 2.2rem; cursor: pointer; color: var(--text-dark); padding: 1rem; }
 #menu { display: none; }
 
 /* General Sections */
-section { min-height: 100vh; padding: 10rem 9% 4rem; }
+section { min-height: 100vh; padding: 10rem 9% 4rem; overflow: hidden; }
 .heading { font-size: 3.5rem; color: var(--text-dark); font-weight: 800; text-align: center; margin-bottom: 4rem; position: relative; }
 .heading span { color: var(--primary-color); }
 
@@ -86,7 +86,14 @@ section { min-height: 100vh; padding: 10rem 9% 4rem; }
 .social-icons a { width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; border-radius: 50%; background: var(--bg-card); color: var(--text-dark); border: 1px solid rgba(216, 64, 64, 0.2); }
 .social-icons a:hover { background: var(--primary-color); color: #fff; transform: translateY(-5px); }
 
-.home .image { flex: 1 1 40rem; display: flex; justify-content: center; z-index: 2; }
+/* Hero Image Floating Animation */
+@keyframes floatAnimation {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0px); }
+}
+
+.home .image { flex: 1 1 40rem; display: flex; justify-content: center; z-index: 2; animation: floatAnimation 4s ease-in-out infinite; }
 .home .image img { width: 320px; height: 320px; border-radius: 50%; object-fit: cover; border: 5px solid var(--primary-color); box-shadow: var(--shadow-xl); }
 
 /* About */
@@ -108,8 +115,17 @@ section { min-height: 100vh; padding: 10rem 9% 4rem; }
 .tech-itemm:hover { background: var(--primary-color); color: #fff; transform: translateY(-3px); }
 .tech-itemm:hover i { color: #fff; }
 
+/* Shared Box Container for Projects, Services & Testimonials */
+.projects .box-container, .services .box-container, .testimonials .box-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr)); gap: 3rem; }
+
+/* Services */
+.services .box { background: var(--bg-card); padding: 3rem; border-radius: 2rem; text-align: center; border: 1px solid rgba(216, 64, 64, 0.1); box-shadow: var(--shadow-lg); transition: var(--transition); }
+.services .box:hover { border-color: var(--primary-color); transform: translateY(-1rem); }
+.services .box i { font-size: 5rem; color: var(--primary-color); margin-bottom: 2rem; }
+.services .box h3 { font-size: 2.2rem; color: var(--text-dark); margin-bottom: 1.5rem; }
+.services .box p { font-size: 1.5rem; color: var(--text-light); line-height: 1.8; }
+
 /* Projects */
-.projects .box-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr)); gap: 3rem; }
 .projects .box { border-radius: 2rem; background: var(--bg-card); border: 1px solid rgba(216, 64, 64, 0.1); overflow: hidden; display: flex; flex-direction: column; }
 .projects .box .img-placeholder { height: 20rem; background: linear-gradient(135deg, rgba(216, 64, 64, 0.1), rgba(142, 22, 22, 0.2)); display: flex; align-items: center; justify-content: center; font-size: 6rem; color: var(--primary-color); }
 .projects .box .content { padding: 2rem; display: flex; flex-direction: column; flex-grow: 1; }
@@ -130,6 +146,16 @@ section { min-height: 100vh; padding: 10rem 9% 4rem; }
 .experience .content h2 { font-size: 2rem; color: var(--primary-color); margin-bottom: 0.5rem; }
 .experience .content h3 { font-size: 1.5rem; margin-bottom: 1rem; font-weight: 500; }
 .experience .content p { display: inline-block; padding: 0.5rem 1rem; background: rgba(216, 64, 64, 0.1); border-radius: 0.5rem; font-size: 1.3rem; font-weight: 600; color: var(--primary-color); }
+
+/* Testimonials */
+.testimonials .box { background: var(--bg-card); padding: 3rem; border-radius: 2rem; border: 1px solid rgba(216, 64, 64, 0.1); box-shadow: var(--shadow-lg); transition: var(--transition); }
+.testimonials .box:hover { border-color: var(--primary-color); transform: translateY(-1rem); }
+.testimonials .box .stars { margin-bottom: 1.5rem; }
+.testimonials .box .stars i { font-size: 1.5rem; color: var(--secondary-color); margin-right: 0.2rem; }
+.testimonials .box p { font-size: 1.5rem; color: var(--text-light); line-height: 1.8; font-style: italic; margin-bottom: 2rem; }
+.testimonials .box .user { border-top: 1px solid rgba(216, 64, 64, 0.1); padding-top: 1.5rem; }
+.testimonials .box .user h3 { font-size: 1.8rem; color: var(--text-dark); margin-bottom: 0.2rem; }
+.testimonials .box .user span { font-size: 1.3rem; color: var(--primary-color); font-weight: 600; }
 
 /* Contact & Footer */
 .contact .container { max-width: 800px; background: var(--bg-card); padding: 4rem; border-radius: 2rem; margin: auto; text-align: center; border: 1px solid rgba(216, 64, 64, 0.1); box-shadow: var(--shadow-lg); }
