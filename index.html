@@ -9,255 +9,368 @@
     <meta name="author" content="Moaaz Sakr" />
     
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css)" />
+    <link rel="stylesheet" href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css)" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css" />
-    
+    <!-- DevIcons -->
+    <link rel="stylesheet" href="[https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css](https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css)">
+          
     <title>Portfolio | Moaaz Sakr</title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="portfolio.css">
 </head>
 <body class="dark-mode">
 
-    <!-- Header -->
-    <header role="banner">
-        <a href="#home" class="logo"><i class="fas fa-code"></i> M. Sakr</a>
-        <button id="menu" class="fas fa-bars"></button>
-        <nav class="navbar">
+<header role="banner">
+        <a href="#home" class="logo" aria-label="Home"><i class="fas fa-code"></i> M. Sakr</a>
+
+        <button id="menu" class="fas fa-bars" aria-label="Toggle navigation menu" aria-expanded="false"></button>
+        <nav class="navbar" role="navigation" aria-label="Main navigation">
             <ul>
-                <li><a class="active" href="#home"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="#about"><i class="fas fa-user"></i> About</a></li>
-                <li><a href="#services"><i class="fas fa-cogs"></i> Services</a></li>
-                <li><a href="#skills"><i class="fas fa-laptop-code"></i> Skills</a></li>
-                <li><a href="#projects"><i class="fas fa-project-diagram"></i> Projects</a></li>
-                <li><a href="#experience"><i class="fas fa-briefcase"></i> Experience</a></li>
-                <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
-                <li><div id="theme-toggle" class="fas fa-sun"></div></li>
-            </ul>
+            <li><a class="active" href="#home" aria-label="Home section"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="#about" aria-label="About section"><i class="fas fa-user"></i> About</a></li>
+            <li><a href="#services" aria-label="Services section"><i class="fas fa-cogs"></i> Services</a></li>
+            <li><a href="#skills" aria-label="Skills section"><i class="fas fa-laptop-code"></i> Skills</a></li>
+            <li><a href="#projects" aria-label="Projects section"><i class="fas fa-project-diagram"></i> Projects</a></li>
+            <li><a href="#experience" aria-label="Experience section"><i class="fas fa-briefcase"></i> Experience</a></li>
+            <li><a href="#contact" aria-label="Contact section"><i class="fas fa-envelope"></i> Contact</a></li>
+            <li><div id="theme-toggle" class="fas fa-sun" role="button" aria-label="Toggle theme"></div></li>
+          </ul>
         </nav>
-    </header>
+</header>
 
-    <!-- Hero Section -->
-    <section class="home" id="home">
-        <div id="particles-js"></div>
-        <div class="content">
-            <h2>Mobile App Leader,<br/> I'm Moaaz <span>Sakr</span></h2>
-            <p>I am into <span class="typing-text"></span></p> 
-            <a href="#about" class="btn"><span>About Me</span> <i class="fas fa-arrow-circle-down"></i></a>
-            <div class="socials">
-                <ul class="social-icons">
-                    <li><a class="linkedin" href="[https://www.linkedin.com/in/moaazsakr](https://www.linkedin.com/in/moaazsakr)" target="_blank"><i class="fab fa-linkedin"></i></a></li> 
-                    <li><a class="github" href="[https://github.com/MoaazSakr](https://github.com/MoaazSakr)" target="_blank"><i class="fab fa-github"></i></a></li>
-                    <li><a class="whatsapp" href="[https://wa.me/201018917252](https://wa.me/201018917252)" target="_blank"><i class="fab fa-whatsapp"></i></a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="image">
-            <img class="tilt" src="Moaaz.jpg" alt="Moaaz Sakr - Flutter Developer" onerror="this.src='[https://via.placeholder.com/320x320/8E1616/FFFFFF?text=Moaaz+Sakr](https://via.placeholder.com/320x320/8E1616/FFFFFF?text=Moaaz+Sakr)'">
-        </div>
-    </section>
+<!-- hero section starts -->
+<section class="home" id="home" aria-label="Hero section">
+    <div id="particles-js" aria-hidden="true"></div>
 
-    <!-- About Section -->
-    <section class="about" id="about">
-        <h2 class="heading"><i class="fas fa-user-alt"></i> About <span>Me</span></h2>
-        <div class="row">
-            <div class="image">
-                <img class="tilt" src="Moaaz.jpg" alt="Moaaz Sakr" onerror="this.src='[https://via.placeholder.com/300x350/8E1616/FFFFFF?text=Moaaz+Sakr](https://via.placeholder.com/300x350/8E1616/FFFFFF?text=Moaaz+Sakr)'">
-            </div>
-            <div class="content">
-                <h3>I'm Moaaz Sakr</h3>
-                <span class="tag">Flutter Specialist & Team Leader</span>
-                <p>Passionate Flutter Developer and Community Leader with a strong foundation in software engineering. Proven experience in building scalable mobile applications with complex integrations like Bluetooth Low Energy (BLE) and real-time data visualization. Demonstrated leadership skills through roles at GDG Obour and Skilspire, committed to writing clean, efficient code and solving complex problems.</p>
-                
-                <div class="resumebtn" style="margin-top: 2rem;">
-                    <a href="cv.html" target="_blank" class="btn"><span>View / Download CV</span> <i class="fas fa-chevron-right"></i></a>
-                </div>
-            </div>
-        </div>
-    </section>
+    <div class="content">
+    <h1>Mobile App Leader,<br/> I'm Moaaz <span>Sakr</span></h1>
+    <p>I am into <span class="typing-text" aria-live="polite"></span></p> 
+    <a href="#about" class="btn" aria-label="Learn more about me"><span>About Me</span>
+       <i class="fas fa-arrow-circle-down" aria-hidden="true"></i> 
+    </a>
+    <div class="socials">
+        <ul class="social-icons" role="list">
+          <li><a class="linkedin" aria-label="Visit my LinkedIn profile" href="[https://www.linkedin.com/in/moaazsakr](https://www.linkedin.com/in/moaazsakr)" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin" aria-hidden="true"></i></a></li> 
+          <li><a class="github" aria-label="Visit my GitHub profile" href="[https://github.com/MoaazSakr](https://github.com/MoaazSakr)" target="_blank" rel="noopener noreferrer"><i class="fab fa-github" aria-hidden="true"></i></a></li>
+          <li><a class="whatsapp" aria-label="Contact me on WhatsApp" href="[https://wa.me/201018917252](https://wa.me/201018917252)" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp" aria-hidden="true"></i></a></li>
+        </ul>
+      </div>
+    </div>
+<div class="image">
+    <!-- صورة معاذ كخيار أساسي، مع صورة بديلة في حال عدم تحميلها -->
+    <img draggable="false" class="tilt" src="Moaaz.png" onerror="this.src='hero.png'" alt="Moaaz Sakr - Flutter Developer">
+</div>
+</section>
 
-    <!-- Services Section -->
-    <section class="services" id="services">
-        <h2 class="heading"><i class="fas fa-hand-holding-heart"></i> My <span>Services</span></h2>
+<!-- about section starts -->
+<section class="about" id="about" aria-label="About section">
+    <h2 class="heading"><i class="fas fa-user-alt"></i> About <span>Me</span></h2>
+    
+    <div class="row">
+    <div class="image">
+        <img draggable="false" class="tilt" src="Moaaz.png" onerror="this.src='hero.png'" alt="Moaaz Sakr">
+    </div>
+    <div class="content">
+        <h3>I'm Moaaz Sakr</h3>
+        <span class="tag">Flutter Specialist & Team Leader</span>
+        
+        <p>Passionate Flutter Developer and Community Leader with a strong foundation in software engineering. Proven experience in building scalable mobile applications with complex integrations like Bluetooth Low Energy (BLE) and real-time data visualization. Demonstrated leadership skills through roles at GDG Obour and Skilspire.</p>
+        
         <div class="box-container">
-            <div class="box tilt">
-                <i class="fas fa-mobile-alt"></i>
-                <h3>Mobile App Development</h3>
-                <p>Building robust, cross-platform applications using Flutter with clean architecture and scalable backends.</p>
+          <div class="box left-box">
+            <p><span>Phone:</span> +201018917252</p>
+            <p><span>Email:</span> MoaazSakr.Flutter.Dev@gmail.com</p>
+            <p><span>Location:</span> Zagazig, Egypt</p>
+          </div>
+          <div class="box right-box">
+            <p><span>Education:</span> Obour Institutes</p>
+            <p><span>Soft Skills:</span> Leadership, Problem Solving</p>
+            <p><span>Languages:</span> Arabic, English</p>
+          </div>
+        </div>
+        
+        <div class="resumebtn">
+             <a href="resume.html" target="_blank" class="btn"><span>View / Download CV</span> 
+             <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+    </div>
+    </div>
+</section>
+
+<!-- services section starts -->
+<section class="services" id="services" aria-label="Services section">
+    <h2 class="heading"><i class="fas fa-hand-holding-heart"></i> My <span>Services</span></h2>
+    <div class="box-container">
+        <div class="box tilt">
+            <i class="fas fa-mobile-alt"></i>
+            <h3>Mobile Development</h3>
+            <p>Building robust, cross-platform applications using Flutter with clean architecture.</p>
+        </div>
+        <div class="box tilt">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <h3>Flutter Coaching</h3>
+            <p>Mentoring aspiring developers in Dart and industry best practices.</p>
+        </div>
+        <div class="box tilt">
+            <i class="fas fa-users"></i>
+            <h3>Soft Skills</h3>
+            <p>Training teams on communication and problem-solving skills.</p>
+        </div>
+        <div class="box tilt">
+            <i class="fas fa-bullhorn"></i>
+            <h3>Public Relations (PR)</h3>
+            <p>Building community relations, orchestrating tech events, and leading outreach initiatives efficiently.</p>
+        </div>
+    </div>
+</section>
+
+<!-- skills section starts -->
+<section class="skills" id="skills" aria-label="Skills section">
+    <h2 class="heading"><i class="fas fa-laptop-code"></i> Skills & <span>Abilities</span></h2>
+    <div class="container">
+      <div class="boxx">
+        <h2>Mobile Development</h2>
+        <div class="tech-listt">
+              <div class="tech-itemm"><i class="devicon-flutter-plain colored"></i> Flutter</div>
+              <div class="tech-itemm"><i class="devicon-dart-plain colored"></i> Dart</div>
+              <div class="tech-itemm"><i class="fas fa-cubes"></i> Cubit</div>
+              <div class="tech-itemm"><i class="fas fa-broom"></i> Clean Architecture</div>
+              <div class="tech-itemm"><i class="fab fa-bluetooth"></i> BLE Integration</div>
             </div>
-            <div class="box tilt">
-                <i class="fas fa-chalkboard-teacher"></i>
-                <h3>Flutter Coaching</h3>
-                <p>Mentoring aspiring developers in Dart, Flutter framework, state management, and industry best practices.</p>
+         </div>
+
+         <div class="boxx">
+            <h2>Tools & Interpersonal</h2>
+            <div class="tech-listt">
+              <div class="tech-itemm"><i class="devicon-firebase-plain colored"></i> Firebase</div>
+              <div class="tech-itemm"><i class="fas fa-server"></i> RESTful APIs</div>
+              <div class="tech-itemm"><i class="devicon-git-plain colored"></i> Git & GitHub</div>
+              <div class="tech-itemm"><i class="devicon-figma-plain colored"></i> Figma</div>
+              <div class="tech-itemm"><i class="fas fa-users"></i> Leadership</div>
+              <div class="tech-itemm"><i class="fas fa-brain"></i> Problem Solving</div>
+         </div>
+      </div>
+    </div>
+</section>
+
+<!-- projects section starts -->
+<section class="projects" id="projects" aria-label="Projects section">
+  <h2 class="heading"><i class="fas fa-project-diagram"></i> My <span>Projects</span></h2>
+
+  <div class="box-container">
+    <div class="box tilt">
+      <div class="img-placeholder">
+          <i class="fas fa-brain"></i>
+      </div>
+      <div class="content">
+        <div class="tag"><h3>EEG Calm</h3></div>
+        <div class="desc">
+          <p>Health-tech mobile app to monitor brain activity via BLE headsets, featuring real-time data visualization.</p>
+          <div class="btns">
+            <a href="[https://github.com/MoaazSakr](https://github.com/MoaazSakr)" class="btn" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Source Code</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="box tilt">
+      <div class="img-placeholder">
+          <i class="fas fa-dumbbell"></i>
+      </div>
+      <div class="content">
+        <div class="tag"><h3>Horus Gym</h3></div>
+        <div class="desc">
+          <p>Comprehensive fitness platform combining personal training paths, exercise library, and sports shopping.</p>
+          <div class="btns">
+            <a href="[https://github.com/MoaazSakr](https://github.com/MoaazSakr)" class="btn" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Source Code</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="viewall">
+    <a href="[https://github.com/MoaazSakr](https://github.com/MoaazSakr)" class="btn" target="_blank"><span>View All</span><i class="fas fa-arrow-right"></i></a>
+  </div>
+</section>
+
+<!-- experience section starts -->
+<section class="experience" id="experience" aria-label="Experience section">
+  <h2 class="heading"><i class="fas fa-briefcase"></i> Experience </h2>
+  <div class="timeline">
+    <div class="container left">
+      <div class="content">
+        <div class="tag"><h2>TREE</h2></div>
+        <div class="desc">
+            <h3>Head Flutter</h3>
+            <p>02/2026 - Present</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container right">
+      <div class="content">
+        <div class="tag"><h2>Ecradom</h2></div>
+        <div class="desc">
+            <h3>Flutter Developer</h3>
+            <p>08/2025 - Present</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container left">
+      <div class="content">
+        <div class="tag"><h2>GDG Obour</h2></div>
+        <div class="desc">
+            <h3>PR Leader & Flutter Leader</h3>
+            <p>09/2025 - Present</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container right">
+      <div class="content">
+        <div class="tag"><h2>Skilspire</h2></div>
+        <div class="desc">
+            <h3>Team Leader</h3>
+            <p>02/2025 - 07/2025</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>            
+
+<!-- testimonials section starts -->
+<section class="testimonials" id="testimonials" aria-label="Testimonials section">
+    <h2 class="heading"><i class="fas fa-star"></i> Client <span>Reviews</span></h2>
+    <div class="box-container">
+        <div class="box tilt">
+            <div class="stars">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
             </div>
-            <div class="box tilt">
-                <i class="fas fa-users"></i>
-                <h3>Soft Skills Coaching</h3>
-                <p>Training individuals and teams on communication, problem-solving, and thriving under pressure.</p>
-            </div>
-            <div class="box tilt">
-                <i class="fas fa-bullhorn"></i>
-                <h3>Public Relations (PR)</h3>
-                <p>Building community relations, orchestrating tech events, and leading outreach initiatives efficiently.</p>
+            <p>"Moaaz is an exceptional Flutter developer. His attention to detail and clean architecture principles made our app scalable and highly robust."</p>
+            <div class="user">
+                <h3>Ahmed Tarek</h3>
+                <span>Tech Lead</span>
             </div>
         </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section class="skills" id="skills">
-        <h2 class="heading"><i class="fas fa-laptop-code"></i> Skills & <span>Abilities</span></h2>
-        <div class="container">
-            <div class="boxx">
-                <h2>Mobile Development</h2>
-                <div class="tech-listt">
-                    <div class="tech-itemm"><i class="fab fa-android"></i> Flutter</div>
-                    <div class="tech-itemm"><i class="fas fa-code"></i> Dart</div>
-                    <div class="tech-itemm"><i class="fas fa-cubes"></i> Cubit (State Mgt)</div>
-                    <div class="tech-itemm"><i class="fas fa-broom"></i> Clean Architecture</div>
-                    <div class="tech-itemm"><i class="fab fa-bluetooth"></i> BLE Integration</div>
-                </div>
+        <div class="box tilt">
+            <div class="stars">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
             </div>
-            <div class="boxx">
-                <h2>Tools & Interpersonal</h2>
-                <div class="tech-listt">
-                    <div class="tech-itemm"><i class="fas fa-fire"></i> Firebase</div>
-                    <div class="tech-itemm"><i class="fas fa-server"></i> RESTful APIs</div>
-                    <div class="tech-itemm"><i class="fab fa-git-alt"></i> Git & GitHub</div>
-                    <div class="tech-itemm"><i class="fab fa-figma"></i> Figma</div>
-                    <div class="tech-itemm"><i class="fas fa-users"></i> Leadership</div>
-                    <div class="tech-itemm"><i class="fas fa-brain"></i> Problem Solving</div>
-                </div>
+            <p>"As a team leader, Moaaz brings out the best in everyone. His coaching significantly improved our team's overall performance and soft skills."</p>
+            <div class="user">
+                <h3>Sarah Mahmoud</h3>
+                <span>Project Manager</span>
             </div>
         </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section class="projects" id="projects">
-        <h2 class="heading"><i class="fas fa-project-diagram"></i> My <span>Projects</span></h2>
-        <div class="box-container">
-            <div class="box tilt">
-                <div class="img-placeholder"><i class="fas fa-brain"></i></div>
-                <div class="content">
-                    <h3>EEG Calm</h3>
-                    <p>A comprehensive health-tech mobile app designed to monitor brain activity and alleviate stress. Connects to EEG headsets via BLE for real-time brainwave data processing using FL Chart and Firebase.</p>
-                    <div class="btns">
-                        <a href="[https://github.com/MoaazSakr](https://github.com/MoaazSakr)" class="btn" target="_blank"><i class="fab fa-github"></i> Code</a>
-                    </div>
-                </div>
+        <div class="box tilt">
+            <div class="stars">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
             </div>
-            <div class="box tilt">
-                <div class="img-placeholder"><i class="fas fa-dumbbell"></i></div>
-                <div class="content">
-                    <h3>Horus Gym</h3>
-                    <p>A complete fitness platform combining personal training with sports shopping. Features a categorized exercise library, nutrition paths, and an integrated store for supplements.</p>
-                    <div class="btns">
-                        <a href="[https://github.com/MoaazSakr](https://github.com/MoaazSakr)" class="btn" target="_blank"><i class="fab fa-github"></i> Code</a>
-                    </div>
-                </div>
+            <p>"Working with Moaaz on our health-tech app was amazing. He handles complex integrations like BLE with incredible ease and professionalism."</p>
+            <div class="user">
+                <h3>Omar Hassan</h3>
+                <span>Product Owner</span>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Experience Section -->
-    <section class="experience" id="experience">
-        <h2 class="heading"><i class="fas fa-briefcase"></i> Experience </h2>
-        <div class="timeline">
-            <div class="container left">
-                <div class="content">
-                    <h2>TREE</h2>
-                    <h3>Head Flutter</h3>
-                    <p>02/2026 - Present</p>
-                </div>
-            </div>
-            <div class="container right">
-                <div class="content">
-                    <h2>Ecradom</h2>
-                    <h3>Flutter Developer</h3>
-                    <p>08/2025 - Present</p>
-                </div>
-            </div>
-            <div class="container left">
-                <div class="content">
-                    <h2>GDG Obour</h2>
-                    <h3>PR Leader & Flutter Leader</h3>
-                    <p>09/2025 - Present</p>
-                </div>
-            </div>
-            <div class="container right">
-                <div class="content">
-                    <h2>Skilspire</h2>
-                    <h3>Team Leader</h3>
-                    <p>02/2025 - 07/2025</p>
-                </div>
-            </div>
+<!-- contact section starts -->
+<section class="contact" id="contact" aria-label="Contact section">
+  <h2 class="heading"><i class="fas fa-headset"></i> Get in <span>Touch</span></h2>
+  <div class="container">
+    <div class="content">
+      <div class="image-box" aria-hidden="true">
+        <img draggable="false" src="contact1.png" onerror="this.src='[https://images.unsplash.com/photo-1596524430615-b46475ddff6e?auto=format&fit=crop&w=400&q=80](https://images.unsplash.com/photo-1596524430615-b46475ddff6e?auto=format&fit=crop&w=400&q=80)'" alt="Contact illustration">
+      </div>
+
+      <form id="contact-form" action="[https://formsubmit.co/MoaazSakr.Flutter.Dev@gmail.com](https://formsubmit.co/MoaazSakr.Flutter.Dev@gmail.com)" method="POST" aria-label="Contact form">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_subject" value="New Portfolio Message!">
+
+        <div class="form-group">
+          <div class="field">
+            <label for="name" class="sr-only">Name</label>
+            <input type="text" id="name" name="name" placeholder="Name" required minlength="3">
+            <i class='fas fa-user' aria-hidden="true"></i>
+          </div>
+          <div class="field">
+            <label for="email" class="sr-only">Email</label>
+            <input type="email" id="email" name="email" placeholder="Email" required>
+            <i class='fas fa-envelope' aria-hidden="true"></i>
+          </div>
+          <div class="field">
+            <label for="phone" class="sr-only">Phone</label>
+            <input type="tel" id="phone" name="phone" placeholder="Phone" pattern="[0-9]{10,15}">
+            <i class='fas fa-phone-alt' aria-hidden="true"></i>
+          </div>
+          <div class="message">
+            <label for="message" class="sr-only">Message</label>
+            <textarea id="message" name="message" placeholder="Message" required minlength="10"></textarea>
+            <i class="fas fa-comment-dots" aria-hidden="true"></i>
+          </div>
         </div>
-    </section>
 
-    <!-- Testimonials Section -->
-    <section class="testimonials" id="testimonials">
-        <h2 class="heading"><i class="fas fa-star"></i> Client <span>Reviews</span></h2>
-        <div class="box-container">
-            <div class="box tilt">
-                <div class="stars">
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                </div>
-                <p>"Moaaz is an exceptional Flutter developer. His attention to detail and clean architecture principles made our app scalable and highly robust."</p>
-                <div class="user">
-                    <h3>Ahmed Tarek</h3>
-                    <span>Tech Lead</span>
-                </div>
-            </div>
-            <div class="box tilt">
-                <div class="stars">
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-                </div>
-                <p>"As a team leader, Moaaz brings out the best in everyone. His coaching significantly improved our team's overall performance and soft skills."</p>
-                <div class="user">
-                    <h3>Sarah Mahmoud</h3>
-                    <span>Project Manager</span>
-                </div>
-            </div>
-            <div class="box tilt">
-                <div class="stars">
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                </div>
-                <p>"Working with Moaaz on our health-tech app was amazing. He handles complex integrations like BLE with incredible ease and professionalism."</p>
-                <div class="user">
-                    <h3>Omar Hassan</h3>
-                    <span>Product Owner</span>
-                </div>
-            </div>
+        <div class="button-area">
+          <button type="submit" aria-label="Submit contact form">
+            Submit <i class="fa fa-paper-plane" aria-hidden="true"></i>
+          </button>
         </div>
-    </section>
+      </form>
+    </div>
+  </div>
+</section>
 
-    <!-- Contact Section -->
-    <section class="contact" id="contact">
-        <h2 class="heading"><i class="fas fa-headset"></i> Get in <span>Touch</span></h2>
-        <div class="container">
-            <p>Interested in collaborating or hiring me? Feel free to reach out through any of the platforms below.</p>
-            <div class="contact-links">
-                <a href="[https://wa.me/201018917252](https://wa.me/201018917252)" target="_blank" class="whatsapp"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
-                <a href="mailto:MoaazSakr.Flutter.Dev@gmail.com" class="email"><i class="fas fa-envelope"></i> Send an Email</a>
-            </div>
-        </div>
-    </section>
+<!-- footer section starts -->
+<footer class="footer" role="contentinfo">
+  <div class="box-container">
+      <div class="box">
+          <h3>Moaaz Sakr</h3>
+          <p>Thank you for visiting my personal portfolio website. Connect with me over socials. <br/> <br/> Keep Rising. Connect with me over live chat!</p>
+      </div>
+      <div class="box">
+          <h3>quick links</h3>
+          <nav aria-label="Footer navigation">
+            <a href="#home" aria-label="Go to home section"><i class="fas fa-chevron-circle-right" aria-hidden="true"></i> home</a>
+            <a href="#about" aria-label="Go to about section"><i class="fas fa-chevron-circle-right" aria-hidden="true"></i> about</a>
+            <a href="#skills" aria-label="Go to skills section"><i class="fas fa-chevron-circle-right" aria-hidden="true"></i> skills</a>
+            <a href="#projects" aria-label="Go to projects section"><i class="fas fa-chevron-circle-right" aria-hidden="true"></i> projects</a>
+            <a href="#experience" aria-label="Go to experience section"><i class="fas fa-chevron-circle-right" aria-hidden="true"></i> experience</a>
+            <a href="#contact" aria-label="Go to contact section"><i class="fas fa-chevron-circle-right" aria-hidden="true"></i> contact</a>
+          </nav>
+      </div>
+      <div class="box">
+          <h3>contact info</h3>
+          <address>
+            <p><i class="fas fa-phone" aria-hidden="true"></i><a href="tel:+201018917252" aria-label="Call me">+201018917252</a></p>
+            <p><i class="fas fa-envelope" aria-hidden="true"></i><a href="mailto:MoaazSakr.Flutter.Dev@gmail.com" aria-label="Email me">MoaazSakr.Flutter.Dev@gmail.com</a></p>
+            <p><i class="fas fa-map-marked-alt" aria-hidden="true"></i>Zagazig, Egypt</p>
+          </address>
+          <div class="share" role="list">
+              <a href="[https://www.linkedin.com/in/moaazsakr](https://www.linkedin.com/in/moaazsakr)" class="fab fa-linkedin" aria-label="LinkedIn profile" target="_blank" rel="noopener noreferrer"></a>
+              <a href="[https://github.com/MoaazSakr](https://github.com/MoaazSakr)" class="fab fa-github" aria-label="GitHub profile" target="_blank" rel="noopener noreferrer"></a>
+              <a href="[https://wa.me/201018917252](https://wa.me/201018917252)" class="fab fa-whatsapp" aria-label="Contact me on WhatsApp" target="_blank" rel="noopener noreferrer"></a>
+          </div>
+      </div>
+  </div>
+  <p class="credit">Crafted with <i class="fa fa-heart pulse" aria-label="love"></i> by Moaaz Sakr &copy; 2026</p>
+</footer>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <p>Crafted by Moaaz Sakr &copy; 2026 | Powered by Flutter & Web Tech</p>
-    </footer>
+<a href="#home" aria-label="Scroll to top" class="fas fa-angle-up" id="scroll-top" role="button"></a>
 
-    <!-- Scroll Top Button -->
-    <a href="#home" class="fas fa-angle-up" id="scroll-top"></a>
+<!-- ==== ALL MAJOR JAVASCRIPT CDNS ==== -->
+<script src="[https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js](https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js)"></script>
+<script src="[https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.5/typed.min.js](https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.5/typed.min.js)"></script>
+<script src="[https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js](https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js)"></script>
+<script src="[https://unpkg.com/scrollreveal](https://unpkg.com/scrollreveal)"></script>
 
-    <!-- ==== SCRIPTS ==== -->
-    <script src="[https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js](https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js)"></script>
-    <script src="[https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.5/typed.min.js](https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.5/typed.min.js)"></script>
-    <script src="[https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js](https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js)"></script>
-    <script src="[https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js](https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js)"></script>
-    <!-- ScrollReveal CDN for animations -->
-    <script src="[https://unpkg.com/scrollreveal](https://unpkg.com/scrollreveal)"></script>
+<!-- ==== CUSTOM JAVASCRIPT ==== -->
+<script src="portfolio.js"></script>
 
-    <!-- Custom JS -->
-    <script src="script.js"></script>
 </body>
 </html>
