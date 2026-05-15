@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="keywords" content="Moaaz Sakr, portfolio, Flutter developer, mobile developer, frontend developer, app developer" />
+    <meta name="keywords" content="Moaaz Sakr, portfolio, Flutter developer, mobile developer, frontend developer, app developer, AI consultant" />
     <meta name="description" content="Welcome to Moaaz Sakr's Portfolio. Mobile Developer specializing in Flutter development." />
     <meta name="author" content="Moaaz Sakr" />
     
@@ -12,17 +12,351 @@
     <link rel="icon" href="favicon.png" type="image/png">
     
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css)" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
     <!-- DevIcons -->
-    <link rel="stylesheet" href="[https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css](https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css)">
-          
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
+    
+    <!-- Supabase JS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <title>Portfolio | Moaaz Sakr</title>
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="portfolio.css">
+    <style>
+        /* ===== CSS VARIABLES & GLOBAL STYLES (MOAAZ THEME) ===== */
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+        @import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&display=swap");
+
+        :root {
+          /* المظهر الفاتح (Light Mode) */
+          --primary-color: #D84040;
+          --primary-dark: #8E1616;
+          --primary-light: #ff6b6b;
+          --secondary-color: #ff9f43;
+          --accent-color: #D84040;
+
+          --text-dark: #1e293b;      /* نص رئيسي داكن */
+          --text-light: #64748b;     /* نص فرعي رمادي */
+          --bg-white: #ffffff;       /* لون المدخلات (Inputs) */
+          --bg-light: #f8fafc;       
+          --bg-site: #f1f5f9;        /* خلفية الموقع الفاتحة */
+          --bg-header: rgba(255, 255, 255, 0.9);
+          --bg-nav: rgba(255, 255, 255, 0.98);
+          --bg-card: #ffffff;        /* كروت بيضاء نقية */
+          --border-color: rgba(0, 0, 0, 0.08); /* حدود خفيفة */
+          
+          --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+          --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+          --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+          --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+          --border-radius: 1.2rem;
+          --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.dark-mode {
+          /* المظهر الداكن (Dark Mode) */
+          --text-dark: #f8fafc;      /* نص أبيض/رمادي فاتح جداً */
+          --text-light: #94a3b8;     /* نص فرعي رمادي فاتح */
+          --bg-white: #0f172a;       /* لون المدخلات داكن */
+          --bg-light: #020617;       
+          --bg-site: #020617;        /* خلفية الموقع الداكنة جداً */
+          --bg-header: rgba(2, 6, 23, 0.85);
+          --bg-nav: rgba(2, 6, 23, 0.98);
+          --bg-card: #0f172a;        /* كروت رمادية داكنة */
+          --border-color: rgba(255, 255, 255, 0.05); /* حدود داكنة جداً */
+          
+          --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+          --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+          --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
+        }
+
+        .sr-only {
+          position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; text-decoration: none; outline: none; border: none; }
+        
+        html { font-size: 62.5%; overflow-x: hidden; scroll-behavior: smooth; }
+        
+        body { 
+            background: var(--bg-site); 
+            background-attachment: fixed; 
+            font-family: "Poppins", sans-serif; 
+            color: var(--text-dark); 
+            line-height: 1.6; 
+            -webkit-font-smoothing: antialiased; 
+            -moz-osx-font-smoothing: grayscale; 
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+        
+        *::selection { background: var(--primary-color); color: #fff; }
+        
+        html::-webkit-scrollbar { width: 0.8rem; }
+        html::-webkit-scrollbar-track { background: var(--bg-light); }
+        html::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 0.5rem; }
+        html::-webkit-scrollbar-thumb:hover { background: var(--primary-dark); }
+
+        /* الانتقال الناعم للألوان في كل العناصر المهمة */
+        .box, .container, header, .navbar, .content, .ai-result-box, input, textarea, .footer, .btn, .ai-btn { 
+            transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease, transform 0.4s ease; 
+        }
+
+        /* ===== NAVBAR ===== */
+        header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 10%; height: 6.5rem; background: var(--bg-header); backdrop-filter: blur(10px); box-shadow: var(--shadow-md); border-bottom: 1px solid var(--border-color); }
+        #theme-toggle { font-size: 2.2rem; cursor: pointer; color: var(--text-dark); padding: 1rem; border-radius: 50%; transition: var(--transition); margin-right: -1.5rem; }
+        #theme-toggle:hover { background: rgba(216, 64, 64, 0.1); color: var(--primary-color); transform: rotate(15deg); }
+        .dark-mode #theme-toggle { color: #ff9f43; }
+        header.scrolled { box-shadow: var(--shadow-lg); padding: 1rem 10%; }
+        section { min-height: 100vh; padding: 8rem 9% 4rem; }
+        .heading { font-size: 3.5rem; color: var(--text-dark); font-weight: 800; text-align: center; margin-bottom: 4rem; position: relative; display: inline-block; width: 100%; }
+        .heading::after { content: ""; position: absolute; bottom: -1rem; left: 50%; transform: translateX(-50%); width: 80px; height: 4px; background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)); border-radius: 2px; }
+        .heading span { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .heading i { color: var(--primary-color); margin-right: 1rem; }
+        header .logo { font-size: 2rem; font-weight: 800; text-decoration: none; color: var(--text-dark); background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        header .logo:hover { transform: scale(1.05); }
+        header .navbar ul { list-style: none; display: flex; justify-content: center; align-items: center; gap: 0.5rem; }
+        header .navbar li { margin-left: 0.5rem; }
+        header .navbar ul li a { font-size: 1.5rem; color: var(--text-dark); font-weight: 600; text-decoration: none; letter-spacing: 0.04rem; padding: 0.8rem 1.5rem; border-radius: var(--border-radius); position: relative; display: flex; align-items: center; gap: 0.8rem; }
+        header .navbar ul li a i { font-size: 1.4rem; transition: transform 0.3s; }
+        header .navbar ul li a:hover i { transform: scale(1.2) rotate(5deg); color: var(--primary-color); }
+        header .navbar ul li a::before { content: ""; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%) scaleX(0); width: 80%; height: 3px; background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)); border-radius: 2px; transition: transform 0.3s ease; }
+        header .navbar ul li a.active, header .navbar ul li a:hover { color: var(--primary-color); background: rgba(216, 64, 64, 0.05); }
+        header .navbar ul li a.active::before, header .navbar ul li a:hover::before { transform: translateX(-50%) scaleX(1); }
+
+        /* ===== HAMBURGER MENU ===== */
+        #menu { font-size: 2.5rem; cursor: pointer; color: var(--text-dark); display: none; background: transparent; padding: 1rem; border-radius: 50%; }
+        #menu:hover { color: var(--primary-color); background: rgba(216, 64, 64, 0.1); transform: rotate(90deg); }
+        @media (max-width: 768px) {
+          #menu { display: block; }
+          header { padding: 1.5rem 5%; }
+          header .navbar { position: fixed; top: 6.5rem; right: -100%; width: 100%; height: calc(100vh - 6.5rem); background: var(--bg-nav); backdrop-filter: blur(20px); transition: 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28); display: flex; flex-direction: column; padding: 2rem; border-top: 1px solid var(--border-color); align-items: center; }
+          header .navbar ul { flex-flow: column; padding: 2rem; width: 100%; gap: 1.5rem; }
+          header .navbar ul li { text-align: center; width: 100%; margin: 0; }
+          header .navbar ul li a { display: flex; justify-content: flex-start; align-items: center; gap: 2rem; padding: 1.5rem 2.5rem; font-size: 2rem; width: 100%; }
+          header .navbar.nav-toggle { right: 0; }
+        }
+
+        /* ===== HERO SECTION ===== */
+        .home { position: relative; display: flex; flex-wrap: wrap; gap: 3rem; min-height: 100vh; align-items: center; overflow: hidden; }
+        .home::before { content: ""; position: absolute; top: -50%; right: -50%; width: 100%; height: 100%; background: radial-gradient(circle, rgba(216, 64, 64, 0.05) 0%, transparent 70%); animation: float 20s ease-in-out infinite; pointer-events: none;}
+        @keyframes float { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(-30px, -30px) rotate(180deg); } }
+        .home #particles-js { position: absolute; top: 0; left: 0; height: 100%; width: 100%; z-index: 1; pointer-events: none; }
+        .home .content { flex: 1 1 40rem; padding-top: 6rem; z-index: 2; position: relative; }
+        @media (max-width: 768px) {
+          .home { flex-direction: column-reverse; justify-content: center; text-align: center; padding-top: 10rem; }
+          .home .content { padding-top: 0; flex: none; }
+          .home .content h2 { font-size: 4rem; }
+          .home .socials { justify-content: center; display: flex; }
+        }
+        .home .content h1 { font-size: 5.5rem; font-weight: 900; line-height: 1.2; margin-bottom: 1.5rem; color: var(--text-dark);}
+        .home .content h1 span { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .home .content p { font-size: 2rem; font-weight: 600; padding: 1rem 0; margin-bottom: 2rem; opacity: 0.9; color: var(--text-light);}
+        .home .content p span { font-size: 2.2rem; color: var(--primary-color); font-weight: 800; }
+        .home .btn, .resumebtn .btn, .viewall .btn, .button-area button, .ai-btn { display: inline-flex; align-items: center; gap: 1rem; padding: 1.6rem 3.5rem; border-radius: 50px; color: #fff !important; background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); box-shadow: var(--shadow-lg); font-family: "Nunito", sans-serif; font-weight: 600; font-size: 1.6rem; overflow: hidden; z-index: 1; cursor: pointer; border: none;}
+        .home .btn:hover, .resumebtn .btn:hover, .viewall .btn:hover, .button-area button:hover, .ai-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(216, 64, 64, 0.4); }
+        .home .image { flex: 1 1 40rem; display: flex; justify-content: center; align-items: center; z-index: 2; position: relative; }
+        .home .image img { width: 300px; height: 300px; object-fit: cover; border-radius: 50%; border: 6px solid transparent; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) padding-box, linear-gradient(135deg, var(--primary-color), var(--secondary-color)) border-box; box-shadow: 0 20px 60px rgba(216, 64, 64, 0.3); }
+
+        /* ===== SOCIAL ICONS ===== */
+        .socials { position: relative; margin-top: 4rem; z-index: 2; }
+        .socials .social-icons { display: flex; gap: 2.5rem; flex-wrap: wrap; list-style: none; padding: 0;}
+        .social-icons a { 
+            font-size: 2.8rem; 
+            width: 75px; 
+            height: 75px; 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: var(--primary-color); 
+            background: var(--bg-card); 
+            border-radius: 50%; 
+            border: 1px solid var(--border-color); 
+        }
+        .social-icons a:hover { 
+            color: #fff; 
+            transform: translateY(-5px); 
+            background: var(--primary-color); 
+            box-shadow: 0 10px 20px rgba(216, 64, 64, 0.4); 
+            border-color: var(--primary-color); 
+        }
+
+        /* ===== ABOUT SECTION ===== */
+        .about .row { display: flex; gap: 4rem; flex-wrap: wrap; padding: 4rem; align-items: center; }
+        .about .row .image { text-align: center; flex: 1 1 35rem; }
+        .about .row .image img { width: 30rem; border-radius: 2rem; box-shadow: var(--shadow-xl); border: 1px solid var(--border-color); }
+        .about .row .content { flex: 1 1 45rem; padding: 3rem; }
+        .about .row .content h3 { font-size: 3rem; color: var(--primary-color); margin-bottom: 1rem; }
+        .about .row .content .tag { font-size: 1.6rem; padding: 0.8rem 1.5rem; background: rgba(216, 64, 64, 0.1); border-radius: var(--border-radius); display: inline-block; font-weight: bold; color: var(--text-dark);}
+        .about .row .content p { font-size: 1.6rem; margin-top: 2rem; color: var(--text-light); }
+        .about .row .content .box-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 3rem; }
+        .about .row .content .box-container .box { background: var(--bg-card); padding: 2rem; border-radius: var(--border-radius); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
+        .about .row .content .box-container .box p { margin: 0; color: var(--text-light); }
+        .about .row .content .box-container .box p span { color: var(--primary-color); font-weight: 600; display: block; margin-bottom: 0.5rem; }
+
+        /* ===== SERVICES SECTION ===== */
+        .services .box-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr)); gap: 3rem; }
+        .services .box { background: var(--bg-card); padding: 4rem 3rem; border-radius: 2rem; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); display: flex; flex-direction: column; text-align: center; align-items: center; }
+        .services .box:hover { transform: translateY(-10px); box-shadow: var(--shadow-xl); border-color: var(--primary-color); }
+        .services .box i { font-size: 5rem; color: var(--primary-color); margin-bottom: 2.5rem; }
+        .services .box h3 { font-size: 2.4rem; color: var(--text-dark); margin-bottom: 1.5rem; }
+        .services .box p { font-size: 1.6rem; color: var(--text-light); line-height: 1.8; }
+
+        /* ===== SKILLS SECTION ===== */
+        .skills .container { background: var(--bg-card); border-radius: 2rem; padding: 4rem; max-width: 1200px; margin: auto; box-shadow: var(--shadow-xl); border: 1px solid var(--border-color); }
+        .boxx { background: var(--bg-site); padding: 3rem; border-radius: var(--border-radius); margin-bottom: 3rem; border: 1px solid var(--border-color); }
+        .boxx h2 { text-align: center; margin-bottom: 2.5rem; font-size: 2.5rem; color: var(--text-dark); }
+        .tech-listt { display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; }
+        .tech-itemm { background: var(--bg-card); padding: 1.2rem 2rem; border-radius: 50px; display: flex; align-items: center; gap: 1rem; font-size: 1.5rem; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); color: var(--text-dark); font-weight: 500;}
+        .tech-itemm i { font-size: 2.4rem; color: var(--primary-color); }
+
+        /* ===== PROJECTS SECTION ===== */
+        .projects .box-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr)); gap: 3rem; }
+        .projects .box-container .box { background: var(--bg-card); border-radius: 2rem; overflow: hidden; border: 1px solid var(--border-color); box-shadow: var(--shadow-md); }
+        .projects .box-container .box:hover { transform: translateY(-10px); box-shadow: var(--shadow-xl); border-color: var(--primary-color); }
+        .projects .box-container .box .img-placeholder { height: 20rem; width: 100%; display: flex; align-items: center; justify-content: center; background: rgba(216, 64, 64, 0.05); color: var(--primary-color); font-size: 5rem; border-bottom: 1px solid var(--border-color); }
+        .projects .box-container .box .content { padding: 3rem; }
+        .projects .box-container .box .content .tag h3 { font-size: 2.2rem; margin-bottom: 1rem; color: var(--text-dark); }
+        .projects .box-container .box .content .desc p { font-size: 1.5rem; color: var(--text-light); margin-bottom: 2rem; }
+        .projects .box-container .box .content .btns { display: flex; gap: 1.5rem; }
+        .projects .box-container .box .content .btns .btn { flex: 1; padding: 1.2rem; font-size: 1.4rem; text-align: center; justify-content: center;}
+        .viewall { display: flex; justify-content: center; margin-top: 5rem; }
+
+        /* ===== AI CONSULTANT SECTION (GEMINI API) ===== */
+        .ai-consultant .container { max-width: 850px; margin: auto; background: var(--bg-card); border-radius: 2rem; padding: 4rem; box-shadow: var(--shadow-xl); border: 1px solid var(--border-color); text-align: center;}
+        .ai-consultant p.subtitle { font-size: 1.6rem; color: var(--text-light); margin-bottom: 3rem; }
+        .ai-consultant textarea { width: 100%; padding: 2rem; border-radius: var(--border-radius); border: 1px solid var(--border-color); font-size: 1.6rem; background: var(--bg-white); color: var(--text-dark); margin-bottom: 2rem; resize: vertical; min-height: 120px; font-family: inherit;}
+        .ai-consultant textarea:focus { border-color: var(--primary-color); box-shadow: 0 0 10px rgba(216, 64, 64, 0.1); }
+        .ai-result-box { display: none; margin-top: 3rem; padding: 2.5rem; background: var(--bg-site); border-radius: var(--border-radius); font-size: 1.5rem; text-align: left; color: var(--text-dark); border-left: 4px solid var(--primary-color); border-right: 1px solid var(--border-color); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); line-height: 1.8; animation: slideInRight 0.5s ease; }
+        .ai-result-box strong { color: var(--primary-color); }
+        
+        /* ===== EXPERIENCE SECTION ===== */
+        .experience .timeline { position: relative; max-width: 1000px; margin: 0 auto; padding: 2rem 0; }
+        .experience .timeline::after { content: ''; position: absolute; width: 4px; background: var(--border-color); top: 0; bottom: 0; left: 50%; margin-left: -2px; }
+        .experience .container { padding: 2rem 4rem; position: relative; width: 50%; }
+        .experience .container::after { content: '\f0b1'; font-family: 'Font Awesome 5 Free'; position: absolute; width: 35px; height: 35px; right: -18px; background: var(--primary-color); border: 4px solid var(--bg-site); top: 20px; border-radius: 50%; z-index: 1; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 900; }
+        .experience .left { left: 0; }
+        .experience .right { left: 50%; }
+        .experience .right::after { left: -18px; }
+        .experience .content { background: var(--bg-card); color: var(--text-dark); padding: 3rem; border-radius: var(--border-radius); border: 1px solid var(--border-color); box-shadow: var(--shadow-md);}
+        .experience .content:hover { border-color: var(--primary-color); transform: translateY(-5px); box-shadow: var(--shadow-xl); }
+        .experience .content .tag h2 { font-size: 2.2rem; margin-bottom: 0.5rem; color: var(--text-dark); }
+        .experience .content .desc h3 { font-size: 1.6rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--text-light); }
+        .experience .content .desc p { font-size: 1.4rem; background: rgba(216, 64, 64, 0.1); color: var(--primary-color); padding: 0.8rem 1.5rem; border-radius: 50px; display: inline-block; font-weight: bold; margin: 0; }
+        @media (max-width: 768px) {
+            .experience .timeline::after { left: 31px; }
+            .experience .container { width: 100%; padding-left: 8rem; }
+            .experience .right { left: 0; }
+            .experience .container::after { left: 15px; }
+        }
+
+        /* ===== TESTIMONIALS SECTION ===== */
+        .testimonials .box-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr)); gap: 3rem; }
+        .testimonials .box { background: var(--bg-card); padding: 4rem 3rem; border-radius: 2rem; border: 1px solid var(--border-color); box-shadow: var(--shadow-md); display: flex; flex-direction: column; }
+        .testimonials .box:hover { transform: translateY(-10px); box-shadow: var(--shadow-xl); border-color: var(--primary-color); }
+        .testimonials .box .stars { margin-bottom: 2rem; text-align: center;}
+        .testimonials .box .stars i { color: var(--secondary-color); font-size: 1.8rem; margin: 0 2px;}
+        .testimonials .box p { font-size: 1.6rem; color: var(--text-light); line-height: 1.8; font-style: italic; margin-bottom: 3rem; text-align: center;}
+        .testimonials .box .user { display: flex; flex-direction: column; align-items: center; margin-top: auto; border-top: 1px solid var(--border-color); padding-top: 2rem; }
+        .testimonials .box .user h3 { font-size: 2rem; color: var(--text-dark); margin-bottom: 0.5rem; }
+        .testimonials .box .user span { font-size: 1.4rem; color: var(--primary-color); font-weight: 600; }
+
+        /* ===== CONTACT SECTION ===== */
+        .contact .container { max-width: 1000px; margin: auto; background: var(--bg-card); border-radius: 2rem; padding: 4rem; box-shadow: var(--shadow-xl); border: 1px solid var(--border-color); }
+        .contact .content { display: flex; gap: 4rem; align-items: center; }
+        .contact .image-box { flex: 1; text-align: center; }
+        .contact .image-box img { width: 100%; max-width: 400px; border-radius: 2rem; }
+        .contact form { flex: 1.2; width: 100%; }
+        .contact form .field { position: relative; margin: 2rem 0; }
+        .contact form .field input, .contact form .message textarea { width: 100%; padding: 1.8rem 2rem 1.8rem 5.5rem; border-radius: 1rem; border: 1px solid var(--border-color); font-size: 1.6rem; background: var(--bg-white); color: var(--text-dark); font-family: inherit;}
+        .contact form .field input:focus, .contact form .message textarea:focus { border-color: var(--primary-color); box-shadow: 0 0 10px rgba(216, 64, 64, 0.1); }
+        .contact form i { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 1.8rem; color: var(--text-light); }
+        .contact form .message i { top: 35px; }
+
+        @media (max-width: 768px) {
+            .contact .content { flex-direction: column; }
+        }
+
+        /* ===== FOOTER ===== */
+        .footer { padding: 6rem 9% 3rem; text-align: center; background: var(--bg-header); border-top: 1px solid var(--border-color); }
+        .footer .box-container { display: flex; flex-wrap: wrap; gap: 4rem; justify-content: center; margin-bottom: 4rem;}
+        .footer .box { flex: 1 1 25rem; text-align: left;}
+        @media (max-width: 768px) { .footer .box { text-align: center; } }
+        .footer .box h3 { font-size: 2.4rem; margin-bottom: 2rem; color: var(--text-dark); font-weight: 700;}
+        .footer .box p, .footer .box a { font-size: 1.6rem; color: var(--text-light); display: block; margin-bottom: 1.5rem; }
+        .footer .box a:hover { color: var(--primary-color); padding-left: 10px; }
+        @media (max-width: 768px) { .footer .box a:hover { padding-left: 0; transform: translateY(-3px); } }
+        .footer .share { display: flex; gap: 1.5rem; margin-top: 2rem; }
+        @media (max-width: 768px) { .footer .share { justify-content: center; } }
+        .footer .share a { 
+            width: 50px; 
+            height: 50px; 
+            background: var(--bg-card); 
+            color: var(--primary-color); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            border-radius: 50%; 
+            font-size: 2rem;
+            border: 1px solid var(--border-color);
+        }
+        .footer .share a:hover { 
+            background: var(--primary-color); 
+            color: #fff; 
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(216, 64, 64, 0.4); 
+            border-color: var(--primary-color);
+        }
+        .credit { border-top: 1px solid var(--border-color); padding-top: 3rem; font-size: 1.6rem; color: var(--text-light); }
+        .pulse { color: #D84040; animation: heartPulse 1.5s infinite; display: inline-block;}
+        @keyframes heartPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.3); } }
+
+        #scroll-top { position: fixed; bottom: 4rem; right: 4rem; width: 50px; height: 50px; background: var(--primary-color); color: #fff; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 2rem; opacity: 0; pointer-events: none; box-shadow: var(--shadow-lg); z-index: 999;}
+        #scroll-top.active { opacity: 1; pointer-events: auto; cursor: pointer;}
+        #scroll-top:hover { transform: translateY(-5px); background: var(--primary-dark); }
+
+        /* ==== NOTIFICATIONS ANIMATION ==== */
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        /* ===== COLOR SWITCHER ===== */
+        .color-switcher { position: fixed; top: 120px; right: -220px; width: 220px; background: var(--bg-card); z-index: 10000; border: 1px solid var(--border-color); border-radius: 10px 0 0 10px; padding: 2rem; box-shadow: var(--shadow-xl); transition: right 0.3s ease; }
+        .color-switcher.active { right: 0; }
+        .color-switcher .switcher-btn { position: absolute; top: 15px; left: -45px; width: 45px; height: 45px; background: var(--bg-card); color: var(--text-dark); font-size: 2rem; display: flex; justify-content: center; align-items: center; cursor: pointer; border: 1px solid var(--border-color); border-right: none; border-radius: 10px 0 0 10px; box-shadow: -5px 0 15px rgba(0,0,0,0.05); }
+        .color-switcher h3 { font-size: 1.6rem; color: var(--text-dark); margin-bottom: 1.5rem; text-align: center; }
+        .color-switcher .color-list { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+        .color-switcher .color-item { width: 30px; height: 30px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: var(--transition); }
+        .color-switcher .color-item.active { border-color: var(--text-dark); transform: scale(1.1); box-shadow: var(--shadow-md);}
+        .color-switcher .mode-toggle-btns { display: flex; gap: 1rem; justify-content: center; margin-top: 1rem; }
+        .color-switcher .mode-btn { flex: 1; padding: 0.8rem; border-radius: 0.5rem; cursor: pointer; background: var(--bg-light); color: var(--text-dark); border: 1px solid var(--border-color); font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1.3rem; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .color-switcher .mode-btn.active, .color-switcher .mode-btn:hover { background: var(--primary-color); color: #fff; border-color: var(--primary-color); }
+    </style>
 </head>
 <body class="dark-mode">
+
+<!-- Color Switcher -->
+<div class="color-switcher">
+    <div class="switcher-btn" aria-label="Toggle Color Switcher">
+        <i class="fas fa-cog fa-spin"></i>
+    </div>
+    <div class="switcher-body">
+        <h3>Theme Colors</h3>
+        <div class="color-list">
+            <span class="color-item active" data-color="#D84040" style="background: #D84040;"></span>
+            <span class="color-item" data-color="#3b82f6" style="background: #3b82f6;"></span>
+            <span class="color-item" data-color="#10b981" style="background: #10b981;"></span>
+            <span class="color-item" data-color="#8b5cf6" style="background: #8b5cf6;"></span>
+            <span class="color-item" data-color="#f59e0b" style="background: #f59e0b;"></span>
+        </div>
+        <div style="margin: 2rem 0; border-top: 1px solid var(--border-color);"></div>
+        <h3>Theme Mode</h3>
+        <div class="mode-toggle-btns">
+            <button class="mode-btn light-btn" aria-label="Light Mode"><i class="fas fa-sun"></i> Light</button>
+            <button class="mode-btn dark-btn active" aria-label="Dark Mode"><i class="fas fa-moon"></i> Dark</button>
+        </div>
+    </div>
+</div>
 
 <header role="banner">
         <a href="#home" class="logo" aria-label="Home"><i class="fas fa-code"></i> M. Sakr</a>
@@ -35,6 +369,7 @@
             <li><a href="#services" aria-label="Services section"><i class="fas fa-cogs"></i> Services</a></li>
             <li><a href="#skills" aria-label="Skills section"><i class="fas fa-laptop-code"></i> Skills</a></li>
             <li><a href="#projects" aria-label="Projects section"><i class="fas fa-project-diagram"></i> Projects</a></li>
+            <li><a href="#aiconsultant" aria-label="AI Consultant section"><i class="fas fa-robot"></i> AI Consultant</a></li>
             <li><a href="#experience" aria-label="Experience section"><i class="fas fa-briefcase"></i> Experience</a></li>
             <li><a href="#contact" aria-label="Contact section"><i class="fas fa-envelope"></i> Contact</a></li>
             <li><div id="theme-toggle" class="fas fa-sun" role="button" aria-label="Toggle theme"></div></li>
@@ -54,15 +389,16 @@
     </a>
     <div class="socials">
         <ul class="social-icons" role="list">
-          <li><a class="linkedin" aria-label="Visit my LinkedIn profile" href="[https://www.linkedin.com/in/moaazsakr](https://www.linkedin.com/in/moaazsakr)" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin" aria-hidden="true"></i></a></li> 
-          <li><a class="github" aria-label="Visit my GitHub profile" href="[https://github.com/MoaazSakr](https://github.com/MoaazSakr)" target="_blank" rel="noopener noreferrer"><i class="fab fa-github" aria-hidden="true"></i></a></li>
-          <li><a class="whatsapp" aria-label="Contact me on WhatsApp" href="[https://wa.me/201018917252](https://wa.me/201018917252)" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp" aria-hidden="true"></i></a></li>
+          <!-- Fixed Links -->
+          <li><a class="linkedin" aria-label="Visit my LinkedIn profile" href="https://www.linkedin.com/in/moaazsakr" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin" aria-hidden="true"></i></a></li> 
+          <li><a class="github" aria-label="Visit my GitHub profile" href="https://github.com/MoaazSakr" target="_blank" rel="noopener noreferrer"><i class="fab fa-github" aria-hidden="true"></i></a></li>
+          <li><a class="whatsapp" aria-label="Contact me on WhatsApp" href="https://wa.me/201018917252" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp" aria-hidden="true"></i></a></li>
         </ul>
       </div>
     </div>
 <div class="image">
-    <!-- صورة معاذ كخيار أساسي، مع صورة بديلة في حال عدم تحميلها -->
-    <img draggable="false" class="tilt" src="Moaaz.png" onerror="this.src='hero.png'" alt="Moaaz Sakr - Flutter Developer">
+    <!-- Fixed Links -->
+    <img draggable="false" class="tilt" src="Moaaz photo.jpg" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop'" alt="Moaaz Sakr - Flutter Developer">
 </div>
 </section>
 
@@ -72,7 +408,7 @@
     
     <div class="row">
     <div class="image">
-        <img draggable="false" class="tilt" src="Moaaz.png" onerror="this.src='hero.png'" alt="Moaaz Sakr">
+        <img draggable="false" class="tilt" src="Moaaz.png" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop'" alt="Moaaz Sakr">
     </div>
     <div class="content">
         <h3>I'm Moaaz Sakr</h3>
@@ -165,15 +501,15 @@
   <div class="box-container">
     <div class="box tilt">
       <div class="img-placeholder">
-          <i class="fas fa-brain"></i>
+          <i class="fas fa-check-double"></i>
       </div>
       <div class="content">
-        <div class="tag"><h3>EEG Calm</h3></div>
+        <div class="tag"><h3>TODO App</h3></div>
         <div class="desc">
-          <p>Health-tech mobile app to monitor brain activity via BLE headsets, featuring real-time data visualization.</p>
+          <p>Full-featured task management application utilizing Cubit, RESTful APIs with custom JWT interceptors, and robust profile management.</p>
           <div class="btns">
-            <!-- تم ربط المشروع بـ GitHub -->
-            <a href="[https://github.com/MoaazSakr](https://github.com/MoaazSakr)" class="btn" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Source Code</a>
+            <!-- Fixed Links -->
+            <a href="https://github.com/MoaazSakr" class="btn" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Source Code</a>
           </div>
         </div>
       </div>
@@ -181,15 +517,31 @@
 
     <div class="box tilt">
       <div class="img-placeholder">
-          <i class="fas fa-dumbbell"></i>
+          <i class="fas fa-brain"></i>
       </div>
       <div class="content">
-        <div class="tag"><h3>Horus Gym</h3></div>
+        <div class="tag"><h3>EEG Calm</h3></div>
         <div class="desc">
-          <p>Comprehensive fitness platform combining personal training paths, exercise library, and sports shopping.</p>
+          <p>Health-tech mobile app to monitor brain activity via BLE headsets, featuring zero-latency real-time data visualization using FL Chart.</p>
           <div class="btns">
-            <!-- تم ربط المشروع بـ GitHub -->
-            <a href="[https://github.com/MoaazSakr](https://github.com/MoaazSakr)" class="btn" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Source Code</a>
+            <!-- Fixed Links -->
+            <a href="https://github.com/MoaazSakr" class="btn" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Source Code</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="box tilt">
+      <div class="img-placeholder">
+          <i class="fas fa-book"></i>
+      </div>
+      <div class="content">
+        <div class="tag"><h3>Bookia</h3></div>
+        <div class="desc">
+          <p>Feature-rich E-commerce bookstore app with custom Light/Dark theming, clean architecture, and seamless auto-login via APIs.</p>
+          <div class="btns">
+            <!-- Fixed Links -->
+            <a href="https://github.com/MoaazSakr" class="btn" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Source Code</a>
           </div>
         </div>
       </div>
@@ -197,8 +549,26 @@
   </div>
 
   <div class="viewall">
-    <!-- تم ربط المشروع بـ GitHub -->
-    <a href="[https://github.com/MoaazSakr](https://github.com/MoaazSakr)" class="btn" target="_blank"><span>View All</span><i class="fas fa-arrow-right"></i></a>
+    <!-- Fixed Links -->
+    <a href="https://github.com/MoaazSakr" class="btn" target="_blank"><span>View All</span><i class="fas fa-arrow-right"></i></a>
+  </div>
+</section>
+
+<!-- AI Consultant section starts -->
+<section class="ai-consultant" id="aiconsultant" aria-label="AI App Consultant section">
+  <h2 class="heading"><i class="fas fa-robot"></i> AI App <span>Consultant</span></h2>
+  <div class="container tilt">
+      <p class="subtitle">Have an app idea? Let my AI assistant break it down into core features and tell you why Flutter & I are the perfect match to build it!</p>
+      
+      <textarea id="ai-idea-input" placeholder="E.g., I want an app that helps students swap and buy used textbooks..." aria-label="Describe your app idea"></textarea>
+      
+      <button id="ai-analyze-btn" class="ai-btn" aria-label="Analyze my app idea">
+        Analyze My App Idea ✨ <i class="fas fa-magic"></i>
+      </button>
+
+      <div id="ai-result" class="ai-result-box" aria-live="polite">
+        <!-- AI Response will appear here -->
+      </div>
   </div>
 </section>
 
@@ -291,14 +661,12 @@
   <div class="container">
     <div class="content">
       <div class="image-box" aria-hidden="true">
-        <img draggable="false" src="contact1.png" onerror="this.src='[https://images.unsplash.com/photo-1596524430615-b46475ddff6e?auto=format&fit=crop&w=400&q=80](https://images.unsplash.com/photo-1596524430615-b46475ddff6e?auto=format&fit=crop&w=400&q=80)'" alt="Contact illustration">
+        <!-- Fixed Links -->
+        <img draggable="false" src="contact1.png" onerror="this.src='https://images.unsplash.com/photo-1596524430615-b46475ddff6e?auto=format&fit=crop&w=400&q=80'" alt="Contact illustration">
       </div>
 
-      <form id="contact-form" action="[https://formsubmit.co/MoaazSakr.Flutter.Dev@gmail.com](https://formsubmit.co/MoaazSakr.Flutter.Dev@gmail.com)" method="POST" aria-label="Contact form">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_template" value="table">
-        <input type="hidden" name="_subject" value="New Portfolio Message!">
-
+      <!-- Form logic shifted to JS for Supabase -->
+      <form id="contact-form" aria-label="Contact form">
         <div class="form-group">
           <div class="field">
             <label for="name" class="sr-only">Name</label>
@@ -358,9 +726,10 @@
             <p><i class="fas fa-map-marked-alt" aria-hidden="true"></i>Zagazig, Egypt</p>
           </address>
           <div class="share" role="list">
-              <a href="[https://www.linkedin.com/in/moaazsakr](https://www.linkedin.com/in/moaazsakr)" class="fab fa-linkedin" aria-label="LinkedIn profile" target="_blank" rel="noopener noreferrer"></a>
-              <a href="[https://github.com/MoaazSakr](https://github.com/MoaazSakr)" class="fab fa-github" aria-label="GitHub profile" target="_blank" rel="noopener noreferrer"></a>
-              <a href="[https://wa.me/201018917252](https://wa.me/201018917252)" class="fab fa-whatsapp" aria-label="Contact me on WhatsApp" target="_blank" rel="noopener noreferrer"></a>
+              <!-- Fixed Links -->
+              <a href="https://www.linkedin.com/in/moaazsakr" class="fab fa-linkedin" aria-label="LinkedIn profile" target="_blank" rel="noopener noreferrer"></a>
+              <a href="https://github.com/MoaazSakr" class="fab fa-github" aria-label="GitHub profile" target="_blank" rel="noopener noreferrer"></a>
+              <a href="https://wa.me/201018917252" class="fab fa-whatsapp" aria-label="Contact me on WhatsApp" target="_blank" rel="noopener noreferrer"></a>
           </div>
       </div>
   </div>
@@ -369,14 +738,412 @@
 
 <a href="#home" aria-label="Scroll to top" class="fas fa-angle-up" id="scroll-top" role="button"></a>
 
-<!-- ==== ALL MAJOR JAVASCRIPT CDNS ==== -->
-<script src="[https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js](https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js)"></script>
-<script src="[https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.5/typed.min.js](https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.5/typed.min.js)"></script>
-<script src="[https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js](https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js)"></script>
-<script src="[https://unpkg.com/scrollreveal](https://unpkg.com/scrollreveal)"></script>
+<!-- ==== ALL MAJOR JAVASCRIPT CDNS (Fixed Links) ==== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.5/typed.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+<script src="https://unpkg.com/scrollreveal"></script>
 
-<!-- ==== CUSTOM JAVASCRIPT ==== -->
-<script src="portfolio.js"></script>
+<!-- Custom JS Embedded -->
+<script>
+    /* ==== PARTICLES.JS MINIFIED CORE ==== */
+    function hexToRgb(e){var a=/^#?([a-f\d])([a-f\d])([a-f\d])$/i;e=e.replace(a,function(e,a,t,i){return a+a+t+t+i+i});var t=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(e);return t?{r:parseInt(t[1],16),g:parseInt(t[2],16),b:parseInt(t[3],16)}:null}function clamp(e,a,t){return Math.min(Math.max(e,a),t)}function isInArray(e,a){return a.indexOf(e)>-1}var pJS=function(e,a){var t=document.querySelector("#"+e+" > .particles-js-canvas-el");this.pJS={canvas:{el:t,w:t.offsetWidth,h:t.offsetHeight},particles:{number:{value:400,density:{enable:!0,value_area:800}},color:{value:"#fff"},shape:{type:"circle",stroke:{width:0,color:"#ff0000"},polygon:{nb_sides:5},image:{src:"",width:100,height:100}},opacity:{value:1,random:!1,anim:{enable:!1,speed:2,opacity_min:0,sync:!1}},size:{value:20,random:!1,anim:{enable:!1,speed:20,size_min:0,sync:!1}},line_linked:{enable:!0,distance:100,color:"#fff",opacity:1,width:1},move:{enable:!0,speed:2,direction:"none",random:!1,straight:!1,out_mode:"out",bounce:!1,attract:{enable:!1,rotateX:3e3,rotateY:3e3}},array:[]},interactivity:{detect_on:"canvas",events:{onhover:{enable:!0,mode:"grab"},onclick:{enable:!0,mode:"push"},resize:!0},modes:{grab:{distance:100,line_linked:{opacity:1}},bubble:{distance:200,size:80,duration:.4},repulse:{distance:200,duration:.4},push:{particles_nb:4},remove:{particles_nb:2}},mouse:{}},retina_detect:!1,fn:{interact:{},modes:{},vendors:{}},tmp:{}};var i=this.pJS;a&&Object.deepExtend(i,a),i.tmp.obj={size_value:i.particles.size.value,size_anim_speed:i.particles.size.anim.speed,move_speed:i.particles.move.speed,line_linked_distance:i.particles.line_linked.distance,line_linked_width:i.particles.line_linked.width,mode_grab_distance:i.interactivity.modes.grab.distance,mode_bubble_distance:i.interactivity.modes.bubble.distance,mode_bubble_size:i.interactivity.modes.bubble.size,mode_repulse_distance:i.interactivity.modes.repulse.distance},i.fn.retinaInit=function(){i.retina_detect&&window.devicePixelRatio>1?(i.canvas.pxratio=window.devicePixelRatio,i.tmp.retina=!0):(i.canvas.pxratio=1,i.tmp.retina=!1),i.canvas.w=i.canvas.el.offsetWidth*i.canvas.pxratio,i.canvas.h=i.canvas.el.offsetHeight*i.canvas.pxratio,i.particles.size.value=i.tmp.obj.size_value*i.canvas.pxratio,i.particles.size.anim.speed=i.tmp.obj.size_anim_speed*i.canvas.pxratio,i.particles.move.speed=i.tmp.obj.move_speed*i.canvas.pxratio,i.particles.line_linked.distance=i.tmp.obj.line_linked_distance*i.canvas.pxratio,i.interactivity.modes.grab.distance=i.tmp.obj.mode_grab_distance*i.canvas.pxratio,i.interactivity.modes.bubble.distance=i.tmp.obj.mode_bubble_distance*i.canvas.pxratio,i.particles.line_linked.width=i.tmp.obj.line_linked_width*i.canvas.pxratio,i.interactivity.modes.bubble.size=i.tmp.obj.mode_bubble_size*i.canvas.pxratio,i.interactivity.modes.repulse.distance=i.tmp.obj.mode_repulse_distance*i.canvas.pxratio},i.fn.canvasInit=function(){i.canvas.ctx=i.canvas.el.getContext("2d")},i.fn.canvasSize=function(){i.canvas.el.width=i.canvas.w,i.canvas.el.height=i.canvas.h,i&&i.interactivity.events.resize&&window.addEventListener("resize",function(){i.canvas.w=i.canvas.el.offsetWidth,i.canvas.h=i.canvas.el.offsetHeight,i.tmp.retina&&(i.canvas.w*=i.canvas.pxratio,i.canvas.h*=i.canvas.pxratio),i.canvas.el.width=i.canvas.w,i.canvas.el.height=i.canvas.h,i.particles.move.enable||(i.fn.particlesEmpty(),i.fn.particlesCreate(),i.fn.particlesDraw(),i.fn.vendors.densityAutoParticles()),i.fn.vendors.densityAutoParticles()})},i.fn.canvasPaint=function(){i.canvas.ctx.fillRect(0,0,i.canvas.w,i.canvas.h)},i.fn.canvasClear=function(){i.canvas.ctx.clearRect(0,0,i.canvas.w,i.canvas.h)},i.fn.particle=function(e,a,t){if(this.radius=(i.particles.size.random?Math.random():1)*i.particles.size.value,i.particles.size.anim.enable&&(this.size_status=!1,this.vs=i.particles.size.anim.speed/100,i.particles.size.anim.sync||(this.vs=this.vs*Math.random())),this.x=t?t.x:Math.random()*i.canvas.w,this.y=t?t.y:Math.random()*i.canvas.h,this.x>i.canvas.w-2*this.radius?this.x=this.x-this.radius:this.x<2*this.radius&&(this.x=this.x+this.radius),this.y>i.canvas.h-2*this.radius?this.y=this.y-this.radius:this.y<2*this.radius&&(this.y=this.y+this.radius),i.particles.move.bounce&&i.fn.vendors.checkOverlap(this,t),this.color={},"object"==typeof e.value)if(e.value instanceof Array){var s=e.value[Math.floor(Math.random()*i.particles.color.value.length)];this.color.rgb=hexToRgb(s)}else void 0!=e.value.r&&void 0!=e.value.g&&void 0!=e.value.b&&(this.color.rgb={r:e.value.r,g:e.value.g,b:e.value.b}),void 0!=e.value.h&&void 0!=e.value.s&&void 0!=e.value.l&&(this.color.hsl={h:e.value.h,s:e.value.s,l:e.value.l});else"random"==e.value?this.color.rgb={r:Math.floor(256*Math.random())+0,g:Math.floor(256*Math.random())+0,b:Math.floor(256*Math.random())+0}:"string"==typeof e.value&&(this.color=e,this.color.rgb=hexToRgb(this.color.value));this.opacity=(i.particles.opacity.random?Math.random():1)*i.particles.opacity.value,i.particles.opacity.anim.enable&&(this.opacity_status=!1,this.vo=i.particles.opacity.anim.speed/100,i.particles.opacity.anim.sync||(this.vo=this.vo*Math.random()));var n={};switch(i.particles.move.direction){case"top":n={x:0,y:-1};break;case"top-right":n={x:.5,y:-.5};break;case"right":n={x:1,y:-0};break;case"bottom-right":n={x:.5,y:.5};break;case"bottom":n={x:0,y:1};break;case"bottom-left":n={x:-.5,y:1};break;case"left":n={x:-1,y:0};break;case"top-left":n={x:-.5,y:-.5};break;default:n={x:0,y:0}}i.particles.move.straight?(this.vx=n.x,this.vy=n.y,i.particles.move.random&&(this.vx=this.vx*Math.random(),this.vy=this.vy*Math.random())):(this.vx=n.x+Math.random()-.5,this.vy=n.y+Math.random()-.5),this.vx_i=this.vx,this.vy_i=this.vy;var r=i.particles.shape.type;if("object"==typeof r){if(r instanceof Array){var c=r[Math.floor(Math.random()*r.length)];this.shape=c}}else this.shape=r;if("image"==this.shape){var o=i.particles.shape;this.img={src:o.image.src,ratio:o.image.width/o.image.height},this.img.ratio||(this.img.ratio=1),"svg"==i.tmp.img_type&&void 0!=i.tmp.source_svg&&(i.fn.vendors.createSvgImg(this),i.tmp.pushing&&(this.img.loaded=!1))}},i.fn.particle.prototype.draw=function(){function e(){i.canvas.ctx.drawImage(r,a.x-t,a.y-t,2*t,2*t/a.img.ratio)}var a=this;if(void 0!=a.radius_bubble)var t=a.radius_bubble;else var t=a.radius;if(void 0!=a.opacity_bubble)var s=a.opacity_bubble;else var s=a.opacity;if(a.color.rgb)var n="rgba("+a.color.rgb.r+","+a.color.rgb.g+","+a.color.rgb.b+","+s+")";else var n="hsla("+a.color.hsl.h+","+a.color.hsl.s+"%,"+a.color.hsl.l+"%,"+s+")";switch(i.canvas.ctx.fillStyle=n,i.canvas.ctx.beginPath(),a.shape){case"circle":i.canvas.ctx.arc(a.x,a.y,t,0,2*Math.PI,!1);break;case"edge":i.canvas.ctx.rect(a.x-t,a.y-t,2*t,2*t);break;case"triangle":i.fn.vendors.drawShape(i.canvas.ctx,a.x-t,a.y+t/1.66,2*t,3,2);break;case"polygon":i.fn.vendors.drawShape(i.canvas.ctx,a.x-t/(i.particles.shape.polygon.nb_sides/3.5),a.y-t/.76,2.66*t/(i.particles.shape.polygon.nb_sides/3),i.particles.shape.polygon.nb_sides,1);break;case"star":i.fn.vendors.drawShape(i.canvas.ctx,a.x-2*t/(i.particles.shape.polygon.nb_sides/4),a.y-t/1.52,2*t*2.66/(i.particles.shape.polygon.nb_sides/3),i.particles.shape.polygon.nb_sides,2);break;case"image":if("svg"==i.tmp.img_type)var r=a.img.obj;else var r=i.tmp.img_obj;r&&e()}i.canvas.ctx.closePath(),i.particles.shape.stroke.width>0&&(i.canvas.ctx.strokeStyle=i.particles.shape.stroke.color,i.canvas.ctx.lineWidth=i.particles.shape.stroke.width,i.canvas.ctx.stroke()),i.canvas.ctx.fill()},i.fn.particlesCreate=function(){for(var e=0;e<i.particles.number.value;e++)i.particles.array.push(new i.fn.particle(i.particles.color,i.particles.opacity.value))},i.fn.particlesUpdate=function(){for(var e=0;e<i.particles.array.length;e++){var a=i.particles.array[e];if(i.particles.move.enable){var t=i.particles.move.speed/2;a.x+=a.vx*t,a.y+=a.vy*t}if(i.particles.opacity.anim.enable&&(1==a.opacity_status?(a.opacity>=i.particles.opacity.value&&(a.opacity_status=!1),a.opacity+=a.vo):(a.opacity<=i.particles.opacity.anim.opacity_min&&(a.opacity_status=!0),a.opacity-=a.vo),a.opacity<0&&(a.opacity=0)),i.particles.size.anim.enable&&(1==a.size_status?(a.radius>=i.particles.size.value&&(a.size_status=!1),a.radius+=a.vs):(a.radius<=i.particles.size.anim.size_min&&(a.size_status=!0),a.radius-=a.vs),a.radius<0&&(a.radius=0)),"bounce"==i.particles.move.out_mode)var s={x_left:a.radius,x_right:i.canvas.w,y_top:a.radius,y_bottom:i.canvas.h};else var s={x_left:-a.radius,x_right:i.canvas.w+a.radius,y_top:-a.radius,y_bottom:i.canvas.h+a.radius};switch(a.x-a.radius>i.canvas.w?(a.x=s.x_left,a.y=Math.random()*i.canvas.h):a.x+a.radius<0&&(a.x=s.x_right,a.y=Math.random()*i.canvas.h),a.y-a.radius>i.canvas.h?(a.y=s.y_top,a.x=Math.random()*i.canvas.w):a.y+a.radius<0&&(a.y=s.y_bottom,a.x=Math.random()*i.canvas.w),i.particles.move.out_mode){case"bounce":a.x+a.radius>i.canvas.w?a.vx=-a.vx:a.x-a.radius<0&&(a.vx=-a.vx),a.y+a.radius>i.canvas.h?a.vy=-a.vy:a.y-a.radius<0&&(a.vy=-a.vy)}if(isInArray("grab",i.interactivity.events.onhover.mode)&&i.fn.modes.grabParticle(a),(isInArray("bubble",i.interactivity.events.onhover.mode)||isInArray("bubble",i.interactivity.events.onclick.mode))&&i.fn.modes.bubbleParticle(a),(isInArray("repulse",i.interactivity.events.onhover.mode)||isInArray("repulse",i.interactivity.events.onclick.mode))&&i.fn.modes.repulseParticle(a),i.particles.line_linked.enable||i.particles.move.attract.enable)for(var n=e+1;n<i.particles.array.length;n++){var r=i.particles.array[n];i.particles.line_linked.enable&&i.fn.interact.linkParticles(a,r),i.particles.move.attract.enable&&i.fn.interact.attractParticles(a,r),i.particles.move.bounce&&i.fn.interact.bounceParticles(a,r)}}},i.fn.particlesDraw=function(){i.canvas.ctx.clearRect(0,0,i.canvas.w,i.canvas.h),i.fn.particlesUpdate();for(var e=0;e<i.particles.array.length;e++){var a=i.particles.array[e];a.draw()}},i.fn.particlesEmpty=function(){i.particles.array=[]},i.fn.particlesRefresh=function(){cancelRequestAnimFrame(i.fn.checkAnimFrame),cancelRequestAnimFrame(i.fn.drawAnimFrame),i.tmp.source_svg=void 0,i.tmp.img_obj=void 0,i.tmp.count_svg=0,i.fn.particlesEmpty(),i.fn.canvasClear(),i.fn.vendors.start()},i.fn.interact.linkParticles=function(e,a){var t=e.x-a.x,s=e.y-a.y,n=Math.sqrt(t*t+s*s);if(n<=i.particles.line_linked.distance){var r=i.particles.line_linked.opacity-n/(1/i.particles.line_linked.opacity)/i.particles.line_linked.distance;if(r>0){var c=i.particles.line_linked.color_rgb_line;i.canvas.ctx.strokeStyle="rgba("+c.r+","+c.g+","+c.b+","+r+")",i.canvas.ctx.lineWidth=i.particles.line_linked.width,i.canvas.ctx.beginPath(),i.canvas.ctx.moveTo(e.x,e.y),i.canvas.ctx.lineTo(a.x,a.y),i.canvas.ctx.stroke(),i.canvas.ctx.closePath()}}},i.fn.interact.attractParticles=function(e,a){var t=e.x-a.x,s=e.y-a.y,n=Math.sqrt(t*t+s*s);if(n<=i.particles.line_linked.distance){var r=t/(1e3*i.particles.move.attract.rotateX),c=s/(1e3*i.particles.move.attract.rotateY);e.vx-=r,e.vy-=c,a.vx+=r,a.vy+=c}},i.fn.interact.bounceParticles=function(e,a){var t=e.x-a.x,i=e.y-a.y,s=Math.sqrt(t*t+i*i),n=e.radius+a.radius;n>=s&&(e.vx=-e.vx,e.vy=-e.vy,a.vx=-a.vx,a.vy=-a.vx)},i.fn.modes.pushParticles=function(e,a){i.tmp.pushing=!0;for(var t=0;e>t;t++)i.particles.array.push(new i.fn.particle(i.particles.color,i.particles.opacity.value,{x:a?a.pos_x:Math.random()*i.canvas.w,y:a?a.pos_y:Math.random()*i.canvas.h})),t==e-1&&(i.particles.move.enable||i.fn.particlesDraw(),i.tmp.pushing=!1)},i.fn.modes.removeParticles=function(e){i.particles.array.splice(0,e),i.particles.move.enable||i.fn.particlesDraw()},i.fn.modes.bubbleParticle=function(e){function a(){e.opacity_bubble=e.opacity,e.radius_bubble=e.radius}function t(a,t,s,n,c){if(a!=t)if(i.tmp.bubble_duration_end){if(void 0!=s){var o=n-p*(n-a)/i.interactivity.modes.bubble.duration,l=a-o;d=a+l,"size"==c&&(e.radius_bubble=d),"opacity"==c&&(e.opacity_bubble=d)}}else if(r<=i.interactivity.modes.bubble.distance){if(void 0!=s)var v=s;else var v=n;if(v!=a){var d=n-p*(n-a)/i.interactivity.modes.bubble.duration;"size"==c&&(e.radius_bubble=d),"opacity"==c&&(e.opacity_bubble=d)}}else"size"==c&&(e.radius_bubble=void 0),"opacity"==c&&(e.opacity_bubble=void 0)}if(i.interactivity.events.onhover.enable&&isInArray("bubble",i.interactivity.events.onhover.mode)){var s=e.x-i.interactivity.mouse.pos_x,n=e.y-i.interactivity.mouse.pos_y,r=Math.sqrt(s*s+n*n),c=1-r/i.interactivity.modes.bubble.distance;if(r<=i.interactivity.modes.bubble.distance){if(c>=0&&"mousemove"==i.interactivity.status){if(i.interactivity.modes.bubble.size!=i.particles.size.value)if(i.interactivity.modes.bubble.size>i.particles.size.value){var o=e.radius+i.interactivity.modes.bubble.size*c;o>=0&&(e.radius_bubble=o)}else{var l=e.radius-i.interactivity.modes.bubble.size,o=e.radius-l*c;o>0?e.radius_bubble=o:e.radius_bubble=0}if(i.interactivity.modes.bubble.opacity!=i.particles.opacity.value)if(i.interactivity.modes.bubble.opacity>i.particles.opacity.value){var v=i.interactivity.modes.bubble.opacity*c;v>e.opacity&&v<=i.interactivity.modes.bubble.opacity&&(e.opacity_bubble=v)}else{var v=e.opacity-(i.particles.opacity.value-i.interactivity.modes.bubble.opacity)*c;v<e.opacity&&v>=i.interactivity.modes.bubble.opacity&&(e.opacity_bubble=v)}}}else a();"mouseleave"==i.interactivity.status&&a()}else if(i.interactivity.events.onclick.enable&&isInArray("bubble",i.interactivity.events.onclick.mode)){if(i.tmp.bubble_clicking){var s=e.x-i.interactivity.mouse.click_pos_x,n=e.y-i.interactivity.mouse.click_pos_y,r=Math.sqrt(s*s+n*n),p=(new Date().getTime()-i.interactivity.mouse.click_time)/1e3;p>i.interactivity.modes.bubble.duration&&(i.tmp.bubble_duration_end=!0),p>2*i.interactivity.modes.bubble.duration&&(i.tmp.bubble_clicking=!1,i.tmp.bubble_duration_end=!1)}i.tmp.bubble_clicking&&(t(i.interactivity.modes.bubble.size,i.particles.size.value,e.radius_bubble,e.radius,"size"),t(i.interactivity.modes.bubble.opacity,i.particles.opacity.value,e.opacity_bubble,e.opacity,"opacity"))}},i.fn.modes.repulseParticle=function(e){function a(){var a=Math.atan2(d,p);if(e.vx=u*Math.cos(a),e.vy=u*Math.sin(a),"bounce"==i.particles.move.out_mode){var t={x:e.x+e.vx,y:e.y+e.vy};t.x+e.radius>i.canvas.w?e.vx=-e.vx:t.x-e.radius<0&&(e.vx=-e.vx),t.y+e.radius>i.canvas.h?e.vy=-e.vy:t.y-e.radius<0&&(e.vy=-e.vy)}}if(i.interactivity.events.onhover.enable&&isInArray("repulse",i.interactivity.events.onhover.mode)&&"mousemove"==i.interactivity.status){var t=e.x-i.interactivity.mouse.pos_x,s=e.y-i.interactivity.mouse.pos_y,n=Math.sqrt(t*t+s*s),r={x:t/n,y:s/n},c=i.interactivity.modes.repulse.distance,o=100,l=clamp(1/c*(-1*Math.pow(n/c,2)+1)*c*o,0,50),v={x:e.x+r.x*l,y:e.y+r.y*l};"bounce"==i.particles.move.out_mode?(v.x-e.radius>0&&v.x+e.radius<i.canvas.w&&(e.x=v.x),v.y-e.radius>0&&v.y+e.radius<i.canvas.h&&(e.y=v.y)):(e.x=v.x,e.y=v.y)}else if(i.interactivity.events.onclick.enable&&isInArray("repulse",i.interactivity.events.onclick.mode))if(i.tmp.repulse_finish||(i.tmp.repulse_count++,i.tmp.repulse_count==i.particles.array.length&&(i.tmp.repulse_finish=!0)),i.tmp.repulse_clicking){var c=Math.pow(i.interactivity.modes.repulse.distance/6,3),p=i.interactivity.mouse.click_pos_x-e.x,d=i.interactivity.mouse.click_pos_y-e.y,m=p*p+d*d,u=-c/m*1;c>=m&&a()}else 0==i.tmp.repulse_clicking&&(e.vx=e.vx_i,e.vy=e.vy_i)},i.fn.modes.grabParticle=function(e){if(i.interactivity.events.onhover.enable&&"mousemove"==i.interactivity.status){var a=e.x-i.interactivity.mouse.pos_x,t=e.y-i.interactivity.mouse.pos_y,s=Math.sqrt(a*a+t*t);if(s<=i.interactivity.modes.grab.distance){var n=i.interactivity.modes.grab.line_linked.opacity-s/(1/i.interactivity.modes.grab.line_linked.opacity)/i.interactivity.modes.grab.distance;if(n>0){var r=i.particles.line_linked.color_rgb_line;i.canvas.ctx.strokeStyle="rgba("+r.r+","+r.g+","+r.b+","+n+")",i.canvas.ctx.lineWidth=i.particles.line_linked.width,i.canvas.ctx.beginPath(),i.canvas.ctx.moveTo(e.x,e.y),i.canvas.ctx.lineTo(i.interactivity.mouse.pos_x,i.interactivity.mouse.pos_y),i.canvas.ctx.stroke(),i.canvas.ctx.closePath()}}}},i.fn.vendors.eventsListeners=function(){"window"==i.interactivity.detect_on?i.interactivity.el=window:i.interactivity.el=i.canvas.el,(i.interactivity.events.onhover.enable||i.interactivity.events.onclick.enable)&&(i.interactivity.el.addEventListener("mousemove",function(e){if(i.interactivity.el==window)var a=e.clientX,t=e.clientY;else var a=e.offsetX||e.clientX,t=e.offsetY||e.clientY;i.interactivity.mouse.pos_x=a,i.interactivity.mouse.pos_y=t,i.tmp.retina&&(i.interactivity.mouse.pos_x*=i.canvas.pxratio,i.interactivity.mouse.pos_y*=i.canvas.pxratio),i.interactivity.status="mousemove"}),i.interactivity.el.addEventListener("mouseleave",function(e){i.interactivity.mouse.pos_x=null,i.interactivity.mouse.pos_y=null,i.interactivity.status="mouseleave"})),i.interactivity.events.onclick.enable&&i.interactivity.el.addEventListener("click",function(){if(i.interactivity.mouse.click_pos_x=i.interactivity.mouse.pos_x,i.interactivity.mouse.click_pos_y=i.interactivity.mouse.pos_y,i.interactivity.mouse.click_time=new Date().getTime(),i.interactivity.events.onclick.enable)switch(i.interactivity.events.onclick.mode){case"push":i.particles.move.enable?i.fn.modes.pushParticles(i.interactivity.modes.push.particles_nb,i.interactivity.mouse):1==i.interactivity.modes.push.particles_nb?i.fn.modes.pushParticles(i.interactivity.modes.push.particles_nb,i.interactivity.mouse):i.interactivity.modes.push.particles_nb>1&&i.fn.modes.pushParticles(i.interactivity.modes.push.particles_nb);break;case"remove":i.fn.modes.removeParticles(i.interactivity.modes.remove.particles_nb);break;case"bubble":i.tmp.bubble_clicking=!0;break;case"repulse":i.tmp.repulse_clicking=!0,i.tmp.repulse_count=0,i.tmp.repulse_finish=!1,setTimeout(function(){i.tmp.repulse_clicking=!1},1e3*i.interactivity.modes.repulse.duration)}})},i.fn.vendors.densityAutoParticles=function(){if(i.particles.number.density.enable){var e=i.canvas.el.width*i.canvas.el.height/1e3;i.tmp.retina&&(e/=2*i.canvas.pxratio);var a=e*i.particles.number.value/i.particles.number.density.value_area,t=i.particles.array.length-a;0>t?i.fn.modes.pushParticles(Math.abs(t)):i.fn.modes.removeParticles(t)}},i.fn.vendors.checkOverlap=function(e,a){for(var t=0;t<i.particles.array.length;t++){var s=i.particles.array[t],n=e.x-s.x,r=e.y-s.y,c=Math.sqrt(n*n+r*r);c<=e.radius+s.radius&&(e.x=a?a.x:Math.random()*i.canvas.w,e.y=a?a.y:Math.random()*i.canvas.h,i.fn.vendors.checkOverlap(e))}},i.fn.vendors.createSvgImg=function(e){var a=i.tmp.source_svg,t=/#([0-9A-F]{3,6})/gi,s=a.replace(t,function(a,t,i,s){if(e.color.rgb)var n="rgba("+e.color.rgb.r+","+e.color.rgb.g+","+e.color.rgb.b+","+e.opacity+")";else var n="hsla("+e.color.hsl.h+","+e.color.hsl.s+"%,"+e.color.hsl.l+"%,"+e.opacity+")";return n}),n=new Blob([s],{type:"image/svg+xml;charset=utf-8"}),r=window.URL||window.webkitURL||window,c=r.createObjectURL(n),o=new Image;o.addEventListener("load",function(){e.img.obj=o,e.img.loaded=!0,r.revokeObjectURL(c),i.tmp.count_svg++}),o.src=c},i.fn.vendors.destroypJS=function(){cancelAnimationFrame(i.fn.drawAnimFrame),t.remove(),pJSDom=null},i.fn.vendors.drawShape=function(e,a,t,i,s,n){var r=s*n,c=s/n,o=180*(c-2)/c,l=Math.PI-Math.PI*o/180;e.save(),e.beginPath(),e.translate(a,t),e.moveTo(0,0);for(var v=0;r>v;v++)e.lineTo(i,0),e.translate(i,0),e.rotate(l);e.fill(),e.restore()},i.fn.vendors.exportImg=function(){window.open(i.canvas.el.toDataURL("image/png"),"_blank")},i.fn.vendors.loadImg=function(e){if(i.tmp.img_error=void 0,""!=i.particles.shape.image.src)if("svg"==e){var a=new XMLHttpRequest;a.open("GET",i.particles.shape.image.src),a.onreadystatechange=function(e){4==a.readyState&&(200==a.status?(i.tmp.source_svg=e.currentTarget.response,i.fn.vendors.checkBeforeDraw()):(console.log("Error pJS - Image not found"),i.tmp.img_error=!0))},a.send()}else{var t=new Image;t.addEventListener("load",function(){i.tmp.img_obj=t,i.fn.vendors.checkBeforeDraw()}),t.src=i.particles.shape.image.src}else console.log("Error pJS - No image.src"),i.tmp.img_error=!0},i.fn.vendors.draw=function(){"image"==i.particles.shape.type?"svg"==i.tmp.img_type?i.tmp.count_svg>=i.particles.number.value?(i.fn.particlesDraw(),i.particles.move.enable?i.fn.drawAnimFrame=requestAnimFrame(i.fn.vendors.draw):cancelRequestAnimFrame(i.fn.drawAnimFrame)):i.tmp.img_error||(i.fn.drawAnimFrame=requestAnimFrame(i.fn.vendors.draw)):void 0!=i.tmp.img_obj?(i.fn.particlesDraw(),i.particles.move.enable?i.fn.drawAnimFrame=requestAnimFrame(i.fn.vendors.draw):cancelRequestAnimFrame(i.fn.drawAnimFrame)):i.tmp.img_error||(i.fn.drawAnimFrame=requestAnimFrame(i.fn.vendors.draw)):(i.fn.particlesDraw(),i.particles.move.enable?i.fn.drawAnimFrame=requestAnimFrame(i.fn.vendors.draw):cancelRequestAnimFrame(i.fn.drawAnimFrame))},i.fn.vendors.checkBeforeDraw=function(){"image"==i.particles.shape.type?"svg"==i.tmp.img_type&&void 0==i.tmp.source_svg?i.tmp.checkAnimFrame=requestAnimFrame(check):(cancelRequestAnimFrame(i.tmp.checkAnimFrame),i.tmp.img_error||(i.fn.vendors.init(),i.fn.vendors.draw())):(i.fn.vendors.init(),i.fn.vendors.draw())},i.fn.vendors.init=function(){i.fn.retinaInit(),i.fn.canvasInit(),i.fn.canvasSize(),i.fn.canvasPaint(),i.fn.particlesCreate(),i.fn.vendors.densityAutoParticles(),i.particles.line_linked.color_rgb_line=hexToRgb(i.particles.line_linked.color)},i.fn.vendors.start=function(){isInArray("image",i.particles.shape.type)?(i.tmp.img_type=i.particles.shape.image.src.substr(i.particles.shape.image.src.length-3),i.fn.vendors.loadImg(i.tmp.img_type)):i.fn.vendors.checkBeforeDraw()},i.fn.vendors.eventsListeners(),i.fn.vendors.start()};Object.deepExtend=function(e,a){for(var t in a)a[t]&&a[t].constructor&&a[t].constructor===Object?(e[t]=e[t]||{},arguments.callee(e[t],a[t])):e[t]=a[t];return e},window.requestAnimFrame=function(){return window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||window.oRequestAnimationFrame||window.msRequestAnimationFrame||function(e){window.setTimeout(e,1e3/60)}}(),window.cancelRequestAnimFrame=function(){return window.cancelAnimationFrame||window.webkitCancelRequestAnimationFrame||window.mozCancelRequestAnimationFrame||window.oCancelRequestAnimationFrame||window.msCancelRequestAnimationFrame||clearTimeout}(),window.pJSDom=[],window.particlesJS=function(e,a){"string"!=typeof e&&(a=e,e="particles-js"),e||(e="particles-js");var t=document.getElementById(e),i="particles-js-canvas-el",s=t.getElementsByClassName(i);if(s.length)for(;s.length>0;)t.removeChild(s[0]);var n=document.createElement("canvas");n.className=i,n.style.width="100%",n.style.height="100%";var r=document.getElementById(e).appendChild(n);null!=r&&pJSDom.push(new pJS(e,a))},window.particlesJS.load=function(e,a,t){var i=new XMLHttpRequest;i.open("GET",a),i.onreadystatechange=function(a){if(4==i.readyState)if(200==i.status){var s=JSON.parse(a.currentTarget.response);window.particlesJS(e,s),t&&t()}else console.log("Error pJS - XMLHttpRequest status: "+i.status),console.log("Error pJS - File config not found")},i.send()};
 
+    /* ==== PARTICLES.JS INIT ==== */
+    function initParticles(colorHex) {
+        if(typeof particlesJS !== "undefined" && document.getElementById("particles-js")) {
+            const el = document.getElementById("particles-js");
+            el.innerHTML = ''; 
+            if (window.pJSDom && window.pJSDom.length > 0) {
+                window.pJSDom = []; 
+            }
+            
+            particlesJS("particles-js", {
+                particles: {
+                    number: { value: 50, density: { enable: true, value_area: 1000 } },
+                    color: { value: colorHex },
+                    shape: { type: "circle", stroke: { width: 0, color: "#000000" }, polygon: { nb_sides: 5 } },
+                    opacity: { value: 0.4, random: true, anim: { enable: true, speed: 1, opacity_min: 0.1, sync: false } },
+                    size: { value: 4, random: true, anim: { enable: true, speed: 2, size_min: 0.1, sync: false } },
+                    line_linked: { enable: true, distance: 150, color: colorHex, opacity: 0.3, width: 1 },
+                    move: { enable: true, speed: 3, direction: "none", random: false, straight: false, out_mode: "out", bounce: false }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: true, mode: "push" }, resize: true },
+                    modes: {
+                        grab: { distance: 400, line_linked: { opacity: 1 } },
+                        bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
+                        repulse: { distance: 150, duration: 0.4 },
+                        push: { particles_nb: 4 },
+                        remove: { particles_nb: 2 }
+                    }
+                },
+                retina_detect: true
+            });
+        }
+    }
+
+    /* ==== MAIN SCRIPT.JS ==== */
+    $(document).ready(function () {
+      
+      // ===== COLOR SWITCHER LOGIC =====
+      const themeColors = {
+          '#D84040': { dark: '#8E1616', light: '#ff6b6b' }, // Red (Default)
+          '#3b82f6': { dark: '#1d4ed8', light: '#60a5fa' }, // Blue
+          '#10b981': { dark: '#047857', light: '#34d399' }, // Green
+          '#8b5cf6': { dark: '#5b21b6', light: '#a78bfa' }, // Purple
+          '#f59e0b': { dark: '#b45309', light: '#fbbf24' }  // Orange
+      };
+
+      const savedColor = localStorage.getItem('theme-color') || '#D84040';
+      applyColor(savedColor);
+      initParticles(savedColor);
+
+      $('.color-item').each(function() {
+          if ($(this).data('color') === savedColor) {
+              $(this).addClass('active').siblings().removeClass('active');
+          }
+      });
+
+      $('.switcher-btn').on('click', () => {
+          $('.color-switcher').toggleClass('active');
+      });
+
+      $(window).on('scroll', () => {
+          $('.color-switcher').removeClass('active');
+      });
+
+      $('.color-item').on('click', function() {
+          const color = $(this).data('color');
+          $(this).addClass('active').siblings().removeClass('active');
+          applyColor(color);
+          initParticles(color);
+          localStorage.setItem('theme-color', color);
+      });
+
+      function applyColor(color) {
+          if (themeColors[color]) {
+              document.documentElement.style.setProperty('--primary-color', color);
+              document.documentElement.style.setProperty('--primary-dark', themeColors[color].dark);
+              document.documentElement.style.setProperty('--primary-light', themeColors[color].light);
+          }
+      }
+
+      const $menu = $("#menu");
+      const $navbar = $(".navbar");
+      const $themeToggle = $("#theme-toggle");
+
+      // ===== THEME TOGGLE =====
+      let currentTheme = localStorage.getItem("theme");
+      if (!currentTheme) {
+          currentTheme = "dark-mode";
+          localStorage.setItem("theme", "dark-mode");
+      }
+
+      function enableDarkMode() {
+        $("body").addClass("dark-mode");
+        $themeToggle.removeClass("fa-moon").addClass("fa-sun");
+        $(".dark-btn").addClass("active");
+        $(".light-btn").removeClass("active");
+        localStorage.setItem("theme", "dark-mode");
+      }
+
+      function enableLightMode() {
+        $("body").removeClass("dark-mode");
+        $themeToggle.removeClass("fa-sun").addClass("fa-moon");
+        $(".light-btn").addClass("active");
+        $(".dark-btn").removeClass("active");
+        localStorage.setItem("theme", "light-mode");
+      }
+
+      if (currentTheme === "dark-mode") {
+        enableDarkMode();
+      } else {
+        enableLightMode();
+      }
+
+      // Navbar Icon Toggle
+      $themeToggle.on("click", function () {
+        if ($("body").hasClass("dark-mode")) {
+          enableLightMode();
+        } else {
+          enableDarkMode();
+        }
+      });
+
+      // Settings Panel Buttons Toggle
+      $(".light-btn").on("click", enableLightMode);
+      $(".dark-btn").on("click", enableDarkMode);
+
+      // Toggle mobile menu
+      $menu.on("click", function () {
+        $(this).toggleClass("fa-times");
+        $navbar.toggleClass("nav-toggle");
+        $menu.attr("aria-expanded", $navbar.hasClass("nav-toggle"));
+      });
+
+      $(document).on("click", function (e) {
+        if (!$(e.target).closest("header").length && $navbar.hasClass("nav-toggle")) {
+          $menu.removeClass("fa-times");
+          $navbar.removeClass("nav-toggle");
+          $menu.attr("aria-expanded", "false");
+        }
+      });
+
+      $(".navbar a").on("click", function () {
+        if ($(window).width() <= 768) {
+          $menu.removeClass("fa-times");
+          $navbar.removeClass("nav-toggle");
+          $menu.attr("aria-expanded", "false");
+        }
+      });
+
+      // ===== SCROLL EFFECTS =====
+      $(window).on("scroll load", function () {
+        const scrollTop = $(window).scrollTop();
+        const $scrollTopBtn = $("#scroll-top");
+        const $header = $("header");
+
+        if ($(window).width() <= 768) {
+          $menu.removeClass("fa-times");
+          $navbar.removeClass("nav-toggle");
+          $menu.attr("aria-expanded", "false");
+        }
+
+        if (scrollTop > 60) {
+          $scrollTopBtn.addClass("active");
+          $header.addClass("scrolled");
+        } else {
+          $scrollTopBtn.removeClass("active");
+          $header.removeClass("scrolled");
+        }
+
+        // Scroll spy
+        $("section").each(function () {
+          const $section = $(this);
+          const height = $section.outerHeight();
+          const offset = $section.offset().top - 200;
+          const top = scrollTop;
+          const id = $section.attr("id");
+
+          if (top > offset && top < offset + height) {
+            $(".navbar ul li a").removeClass("active");
+            $(".navbar").find(`[href="#${id}"]`).addClass("active");
+          }
+        });
+      });
+
+      // ===== SMOOTH SCROLLING =====
+      $('a[href*="#"]:not([href="#"])').on("click", function (e) {
+        if (location.pathname.replace(/^\//, "") === this.pathname.replace(/^\//, "") && location.hostname === this.hostname) {
+          let target = $(this.hash);
+          target = target.length ? target : $("[name=" + this.hash.slice(1) + "]");
+          if (target.length) {
+            e.preventDefault();
+            $("html, body").animate({ scrollTop: target.offset().top - 80 }, 800, "swing", function () {
+                if (history.pushState) history.pushState(null, null, "#" + target.attr("id"));
+            });
+          }
+        }
+      });
+
+      // ==========================================
+      // ===== GEMINI API - AI CONSULTANT =========
+      // ==========================================
+      const aiBtn = document.getElementById('ai-analyze-btn');
+      const aiInput = document.getElementById('ai-idea-input');
+      const aiResultBox = document.getElementById('ai-result');
+
+      async function fetchGeminiWithRetry(prompt, retries = 5) {
+        const apiKey = ""; // Execution environment provides this
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+        
+        const payload = {
+          contents: [{ parts: [{ text: prompt }] }],
+          systemInstruction: { 
+            parts: [{ 
+              text: "You are an enthusiastic AI assistant for Moaaz Sakr, an expert Flutter Mobile Developer. The user will share a mobile app idea. Break down the idea into 3 core mobile features, explain why Flutter and Moaaz are the perfect match to build it, and enthusiastically encourage them to hire Moaaz via the contact form. Be concise, professional, and use bullet points (-). Do NOT use complex markdown headers, just text and bullets." 
+            }] 
+          }
+        };
+
+        let delay = 1000;
+        for (let i = 0; i < retries; i++) {
+          try {
+            const response = await fetch(url, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            const result = await response.json();
+            return result.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't process your idea.";
+          } catch (error) {
+            if (i === retries - 1) return "Network error while connecting to the AI. Please try again later.";
+            await new Promise(res => setTimeout(res, delay));
+            delay *= 2;
+          }
+        }
+      }
+
+      if (aiBtn) {
+        aiBtn.addEventListener('click', async () => {
+          const idea = aiInput.value.trim();
+          if (!idea) {
+            showNotification("Please enter an app idea first!", "error");
+            return;
+          }
+
+          const originalText = aiBtn.innerHTML;
+          aiBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
+          aiBtn.disabled = true;
+          
+          aiResultBox.style.display = 'block';
+          aiResultBox.innerHTML = '<i class="fas fa-spinner fa-spin"></i> AI is thinking...';
+
+          try {
+            const resultText = await fetchGeminiWithRetry(idea);
+            // Simple formatting for plain text to HTML
+            const formattedHTML = resultText
+                .replace(/\n/g, '<br>')
+                .replace(/- /g, '<i class="fas fa-check-circle" style="color:var(--primary-color); margin-right: 8px;"></i> ')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            
+            aiResultBox.innerHTML = formattedHTML;
+          } catch (e) {
+            aiResultBox.innerHTML = "An error occurred. Please try again.";
+          } finally {
+            aiBtn.innerHTML = originalText;
+            aiBtn.disabled = false;
+          }
+        });
+      }
+
+
+      // ==========================================
+      // ===== SUPABASE CONTACT FORM LOGIC ========
+      // ==========================================
+      
+      const SUPABASE_URL = 'YOUR_SUPABASE_URL_HERE';
+      const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY_HERE';
+      
+      let supabase = null;
+      if(SUPABASE_URL !== 'YOUR_SUPABASE_URL_HERE') {
+          supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      }
+
+      const $contactForm = $("#contact-form");
+      if ($contactForm.length) {
+        $contactForm.on("submit", async function (event) {
+          event.preventDefault();
+          
+          if (!this.checkValidity()) {
+            event.stopPropagation();
+            showNotification("Please fill in all fields correctly.", "error");
+            return false;
+          }
+
+          if(!supabase) {
+              showNotification("Supabase is not configured yet! Please update keys in code.", "error");
+              return false;
+          }
+
+          const $submitBtn = $(this).find('button[type="submit"]');
+          const originalText = $submitBtn.html();
+          $submitBtn.prop("disabled", true).html('<i class="fas fa-spinner fa-spin"></i> Sending...');
+
+          try {
+            const formData = {
+                name: $("#name").val(),
+                email: $("#email").val(),
+                phone: $("#phone").val() || null,
+                message: $("#message").val()
+            };
+
+            const { data, error } = await supabase
+              .from('contact_messages') 
+              .insert([formData]);
+
+            if (error) throw error;
+
+            showNotification("Message sent successfully! I'll get back to you soon.", "success");
+            this.reset();
+            $(this).find(".field input, .message textarea").removeClass("valid invalid");
+            
+          } catch (error) {
+            console.error("Supabase Error:", error);
+            showNotification("Something went wrong. Please try again later.", "error");
+          } finally {
+            $submitBtn.prop("disabled", false).html(originalText);
+          }
+        });
+
+        $contactForm.find("input, textarea").on("input blur", function () {
+          if (this.checkValidity()) $(this).addClass("valid").removeClass("invalid");
+          else $(this).addClass("invalid").removeClass("valid");
+        });
+      }
+
+      function showNotification(message, type = "info") {
+        $(".notification").remove();
+        const bgColor = type === "success" ? "#10b981" : type === "error" ? "#ef4444" : "#D84040";
+        const $notification = $(`
+            <div class="notification" style="position: fixed; top: 100px; right: 20px; background: ${bgColor}; color: white; padding: 1.5rem 2rem; border-radius: 0.5rem; box-shadow: 0 10px 25px rgba(0,0,0,0.2); z-index: 10000; animation: slideInRight 0.3s ease; max-width: 400px; font-size: 1.4rem; font-weight: 500;">
+                ${message}
+            </div>
+        `);
+        $("body").append($notification);
+        setTimeout(() => $notification.fadeOut(300, function() { $(this).remove(); }), 5000);
+      }
+
+      // ===== PAGE VISIBILITY =====
+      document.addEventListener("visibilitychange", function () {
+        if (document.visibilityState === "visible") {
+          document.title = "Portfolio | Moaaz Sakr";
+        } else {
+          document.title = "Come Back To Portfolio";
+        }
+      });
+
+      // ===== TYPED.JS =====
+      if (typeof Typed !== "undefined" && $(".typing-text").length) {
+        new Typed(".typing-text", {
+          strings: ["Flutter Development", "Mobile Architecture", "Team Leadership"],
+          loop: true, typeSpeed: 50, backSpeed: 25, backDelay: 500, showCursor: true, cursorChar: "|", smartBackspace: true
+        });
+      }
+
+      // ===== VANILLA TILT =====
+      if (typeof VanillaTilt !== "undefined") {
+        VanillaTilt.init(document.querySelectorAll(".tilt"), { max: 15, speed: 400, glare: true, "max-glare": 0.2, scale: 1.05 });
+      }
+
+      // ===== SCROLL REVEAL =====
+      if (typeof ScrollReveal !== "undefined") {
+        const srtop = ScrollReveal({ origin: "top", distance: "80px", duration: 1000, reset: false, easing: "ease-in-out", delay: 100 });
+        srtop.reveal(".home .content h1, .home .content h2", { delay: 200 });
+        srtop.reveal(".home .content p", { delay: 400 });
+        srtop.reveal(".home .content .btn, .ai-btn", { delay: 600 });
+        srtop.reveal(".home .image", { delay: 400 });
+        srtop.reveal(".home .social-icons li", { interval: 200, delay: 800 });
+        srtop.reveal(".about .content h3", { delay: 200 });
+        srtop.reveal(".about .content .tag", { delay: 300 });
+        srtop.reveal(".about .content p", { delay: 400 });
+        srtop.reveal(".about .content .box-container", { delay: 500 });
+        srtop.reveal(".about .content .resumebtn", { delay: 600 });
+        srtop.reveal(".about .image", { delay: 300 });
+        srtop.reveal(".services .box", { interval: 200, delay: 400 });
+        srtop.reveal(".skills .container", { delay: 200 });
+        srtop.reveal(".skills .boxx", { interval: 200, delay: 400 });
+        srtop.reveal(".ai-consultant .container", { delay: 200 });
+        srtop.reveal(".experience .timeline", { delay: 400 });
+        srtop.reveal(".experience .timeline .container", { interval: 300, delay: 400 });
+        srtop.reveal(".testimonials .box", { interval: 200, delay: 400 });
+        srtop.reveal(".contact .container", { delay: 400 });
+        srtop.reveal(".contact .container .form-group", { delay: 500 });
+      }
+    });
+</script>
 </body>
 </html>
