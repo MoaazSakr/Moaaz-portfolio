@@ -190,7 +190,8 @@
         .about .row .content p { font-size: 1.6rem; margin-top: 2rem; color: var(--text-light); }
         .about .row .content .box-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 3rem; }
         .about .row .content .box-container .box { background: var(--bg-card); padding: 2rem; border-radius: var(--border-radius); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
-        .about .row .content .box-container .box p { margin: 0; color: var(--text-light); }
+        /* HERE IS THE FIX FOR THE LONG EMAIL ISSUE: overflow-wrap and word-break added */
+        .about .row .content .box-container .box p { margin: 0; color: var(--text-light); overflow-wrap: break-word; word-break: break-word; }
         .about .row .content .box-container .box p span { color: var(--primary-color); font-weight: 600; display: block; margin-bottom: 0.5rem; }
 
         /* ===== SERVICES SECTION ===== */
